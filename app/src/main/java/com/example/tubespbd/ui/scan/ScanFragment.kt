@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -82,18 +83,41 @@ class ScanFragment : Fragment() {
     private fun startCamera() {
         cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener({
+            if (!isAdded) {
+                return@addListener // Early return if the fragment is no longer added to its activity
+            }
+
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+            // Now it's safe to bind the preview
             bindPreview(cameraProvider)
         }, ContextCompat.getMainExecutor(requireContext()))
     }
 
     private fun bindPreview(cameraProvider: ProcessCameraProvider) {
+        if (!isAdded || view == null) {
+            Log.e("ScanFragment", "Fragment is not in a state to view lifecycle owner")
+            return // Early return to avoid IllegalStateException
+        }
+
+        val previewView = binding.previewView
+
         val preview : Preview = Preview.Builder()
             .build()
-        val cameraSelector = androidx.camera.core.CameraSelector.DEFAULT_BACK_CAMERA
+
+        // Connect the Preview use case to the PreviewView
+        preview.setSurfaceProvider(previewView.surfaceProvider)
+
+        val hasFrontCamera = cameraProvider.hasCamera(CameraSelector.DEFAULT_FRONT_CAMERA)
+        val hasBackCamera = cameraProvider.hasCamera(CameraSelector.DEFAULT_BACK_CAMERA)
+
+        val cameraSelector = when {
+            hasFrontCamera -> CameraSelector.DEFAULT_FRONT_CAMERA
+            hasBackCamera -> CameraSelector.DEFAULT_BACK_CAMERA
+            else -> throw IllegalStateException("No cameras available.")
+        }
 
         try {
-            // Unbind use case
+            // Unbind use cases before rebinding
             cameraProvider.unbindAll()
 
             // Bind use cases to camera
@@ -104,6 +128,7 @@ class ScanFragment : Fragment() {
             Log.e("ScanFragment", "Use case binding failed", exc)
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
