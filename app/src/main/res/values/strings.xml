@@ -12,4 +12,6 @@
     <string name="password_text">Password</string>
     <string name="masuk_text">Masuk</string>
     <string name="title_scan">Scan</string>
+    <string name="incorrect_login">Your login credentials are not correct</string>
+    <string name="incorrect_email_format">Incorrect email format!</string>
 </resources>

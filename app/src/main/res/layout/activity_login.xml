@@ -88,6 +88,25 @@
                 tools:ignore="LabelFor" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/errorMessageTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/incorrect_login"
+            android:textColor="@color/red"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/emailErrorTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/incorrect_email_format"
+            android:textColor="@color/red"
+            android:visibility="gone" />
     </LinearLayout>
 
     <Button
