@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         // Retrieve all transactions
         val transactions = transactionManager.getAllTransactions()
         transactions.forEach { transaction ->
-            println("Transaction ID: ${transaction.id}, Title: ${transaction.title}, Amount: ${transaction.amount}, Location: ${transaction.location}")
+            println("Transaction ID: ${transaction.id}, Title: ${transaction.title}, Amount: ${transaction.amount}, Location: ${transaction.location}, Date: ${transaction.tanggal}")
         }
     }
 

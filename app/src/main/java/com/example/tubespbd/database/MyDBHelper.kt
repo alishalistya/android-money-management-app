@@ -10,7 +10,8 @@ import android.Manifest
 import androidx.core.app.ActivityCompat
 
 import android.content.pm.PackageManager
-import com.example.tubespbd.database.MyDBHelper.Transaction
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MyDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     private val context: Context = context
@@ -19,7 +20,8 @@ class MyDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
         val title: String,
         val category: String,
         val amount: Int,
-        val location: String
+        val location: String,
+        val tanggal: String // Add tanggal attribute
     )
 
     companion object {
@@ -32,11 +34,12 @@ class MyDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
         private const val COLUMN_CATEGORY = "category"
         private const val COLUMN_AMOUNT = "amount"
         private const val COLUMN_LOCATION = "location"
+        private const val COLUMN_TANGGAL = "tanggal" // Define the column name for tanggal
     }
 
     private val CREATE_TABLE =
         "CREATE TABLE $TABLE_NAME ($COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "$COLUMN_TITLE TEXT, $COLUMN_CATEGORY TEXT, $COLUMN_AMOUNT REAL, $COLUMN_LOCATION TEXT)"
+                "$COLUMN_TITLE TEXT, $COLUMN_CATEGORY TEXT, $COLUMN_AMOUNT REAL, $COLUMN_LOCATION TEXT, $COLUMN_TANGGAL TEXT)" // Add COLUMN_TANGGAL to create table statement
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(CREATE_TABLE)
@@ -49,13 +52,22 @@ class MyDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
 
     fun insertTransaction(title: String, category: String, amount: Int, location: String): Long {
         val db = this.writableDatabase
+        val tanggal = getCurrentDateTime()
         val values = ContentValues().apply {
             put(COLUMN_TITLE, title)
             put(COLUMN_CATEGORY, category)
             put(COLUMN_AMOUNT, amount)
             put(COLUMN_LOCATION, location)
+            put(COLUMN_TANGGAL, tanggal)
         }
         return db.insert(TABLE_NAME, null, values)
+    }
+
+    // Function to get current date and time in a specific format
+    private fun getCurrentDateTime(): String {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val date = Date()
+        return dateFormat.format(date)
     }
     private fun getUserLocation(locationManager: LocationManager): String {
         // Check if the location permission is granted
@@ -93,7 +105,7 @@ class MyDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
                 val categoryIndex = cursor.getColumnIndex(COLUMN_CATEGORY)
                 val amountIndex = cursor.getColumnIndex(COLUMN_AMOUNT)
                 val locationIndex = cursor.getColumnIndex(COLUMN_LOCATION)
-
+                val tanggalIndex = cursor.getColumnIndex(COLUMN_TANGGAL)
                 // Check if the column exists before accessing its index
                 if (idIndex != -1 && titleIndex != -1 && categoryIndex != -1 && amountIndex != -1 && locationIndex != -1) {
                     val id = cursor.getInt(idIndex)
@@ -101,7 +113,8 @@ class MyDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
                     val category = cursor.getString(categoryIndex)
                     val amount = cursor.getInt(amountIndex)
                     val location = cursor.getString(locationIndex)
-                    val transaction = Transaction(id, title, category, amount, location)
+                    val tanggal = cursor.getString(tanggalIndex)
+                    val transaction = Transaction(id, title, category, amount, location, tanggal)
                     transactionList.add(transaction)
                 } else {
 
