@@ -1,16 +1,21 @@
 package com.example.tubespbd
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.tubespbd.databinding.ActivityMainBinding
 import android.location.LocationManager
+import android.widget.Button
+import android.widget.EditText
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.tubespbd.auth.TokenExpirationService
+import com.example.tubespbd.auth.TokenManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -40,6 +45,15 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         checkAndRequestLocationPermissions()
+
+        // Start expiration timer
+        val serviceIntent = Intent(applicationContext, TokenExpirationService::class.java)
+        applicationContext.startService(serviceIntent)
+
+        val backButton = findViewById<Button>(R.id.back_login)
+        backButton.setOnClickListener {
+
+        }
     }
 
     private fun initializeAfterPermissionsGranted() {
@@ -100,6 +114,15 @@ class MainActivity : AppCompatActivity() {
         } else {
             println("Location permission was denied by the user.")
         }
+    }
+
+    private fun navigateToLogin() {
+        if (TokenManager.getToken() != null) {
+            // Token exists and is valid, cannot go to login page
+            return
+        }
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
     }
 
     companion object {
