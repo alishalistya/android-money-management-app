@@ -28,8 +28,6 @@ class MainActivity : AppCompatActivity() {
 
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
 
-        checkAndRequestLocationPermissions()
-
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
@@ -41,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
+        checkAndRequestLocationPermissions()
     }
 
     private fun initializeAfterPermissionsGranted() {
