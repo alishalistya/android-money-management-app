@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="83dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonExpense"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Button" />
+
+            <Button
+                android:id="@+id/buttonIncome"
+                android:layout_width="wrap_content"
+                android:layout_height="83dp"
+                android:layout_weight="1"
+                android:text="Button" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/editTextHarga"
+            android:layout_width="match_parent"
+            android:layout_height="137dp"
+            android:autofillHints="Rp 0"
+            android:background="@drawable/rounded_corner"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:textSize="24sp"
+            android:hint="Rp 0"
+            tools:ignore="LabelFor" />
+
+
+        <TextView
+            android:id="@+id/textViewHariIni"
+            android:layout_width="match_parent"
+            android:layout_height="63dp"
+            android:text="Hari ini" />
+
+        <EditText
+            android:id="@+id/editTextJudul"
+            android:layout_width="match_parent"
+            android:layout_height="73dp"
+            android:ems="10"
+            android:inputType="text"
+            android:text="Judul"
+            android:hint="Judul"
+            />
+
+        <EditText
+            android:id="@+id/editTextKategori"
+            android:layout_width="match_parent"
+            android:layout_height="73dp"
+            android:ems="10"
+            android:hint="Kategori"
+            android:inputType="text"
+            android:text="Kategiri" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
