@@ -48,11 +48,12 @@ class MainActivity : AppCompatActivity() {
 
         performDatabaseOperations()
     }
+
     private fun performDatabaseOperations() {
         val locationString = if (hasLocationPermissions() && isLocationEnabled()) {
             transactionManager.getLocationString()
         } else {
-            "None"
+            "none"
         }
 
         val transactionId = transactionManager.insertTransaction("Mi Ayam", "Pembelian", 15000, locationString)
@@ -64,7 +65,6 @@ class MainActivity : AppCompatActivity() {
             println("Transaction ID: ${transaction.id}, Title: ${transaction.title}, Amount: ${transaction.amount}, Location: ${transaction.location}, Date: ${transaction.tanggal}")
         }
     }
-
 
     private fun isLocationEnabled(): Boolean {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
@@ -106,4 +106,3 @@ class MainActivity : AppCompatActivity() {
         private const val REQUEST_LOCATION_PERMISSION = 100
     }
 }
-
