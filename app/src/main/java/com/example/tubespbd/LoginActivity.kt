@@ -4,13 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import androidx.security.crypto.MasterKeys
 import com.example.tubespbd.R.id.button_masuk
+import com.example.tubespbd.auth.EmailValidator
 import com.example.tubespbd.auth.TokenManager
 import com.example.tubespbd.interfaces.AuthService
 import com.example.tubespbd.responses.LoginRequest
@@ -28,10 +31,14 @@ import java.util.Calendar
 import java.util.Date
 
 class LoginActivity : AppCompatActivity() {
-// TODO: implement logout
+// TODO: Client side checking and UI
+
+    private lateinit var sharedPreferences: EncryptedSharedPreferences
+    lateinit var errorMessageTextView: TextView
+    lateinit var emailErrorTextView: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (TokenManager.getToken() != null) {
+        if (::sharedPreferences.isInitialized && TokenManager.getToken() != null) {
             // Token exists and is valid, navigate to the next screen
             navigateToNextActivity()
             return // Skip further execution of onCreate()
@@ -42,12 +49,25 @@ class LoginActivity : AppCompatActivity() {
         // Initialize EncryptedSharedPreferences for saving the token
         initEncryptedSharedPreferences()
 
+        // find error messages, view is still GONE
+        errorMessageTextView = findViewById(R.id.errorMessageTextView)
+        emailErrorTextView = findViewById(R.id.emailErrorTextView)
+
         // setup login button to trigger login function
         val loginButton = findViewById<Button>(button_masuk)
         loginButton.setOnClickListener {
             val email = findViewById<EditText>(R.id.editTextTextEmailAddress).text.toString()
             val password = findViewById<EditText>(R.id.editTextTextPassword).text.toString()
-            attemptLogin(email, password)
+
+            if (EmailValidator.isValidEmail(email)) {
+                // Email error message validation is gone (client side checking)
+                emailErrorTextView.visibility = View.GONE
+                // call attemptLogin
+                attemptLogin(email, password)
+            } else {
+                // Email error message validation is visible (client side checking)
+                emailErrorTextView.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -63,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
 
         // Create AuthService, using LoginRequest and returns a callback LoginResponse
         val authService = retrofit.create(AuthService::class.java)
-        authService.login(loginRequest).enqueue(object: Callback<LoginResponse> {
+        authService.login(LoginRequest(email, password)).enqueue(object: Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (response.isSuccessful) {
                     // Get the token if successful
@@ -71,12 +91,20 @@ class LoginActivity : AppCompatActivity() {
                     val token = loginResponse?.token
                     // Check if token is null
                     if (token != null) {
+                        // Saved token to Token Manager
                         saveToken(token)
                         Log.d("Token", "Token saved!")
+
+                        // Error message validation is gone
+                        errorMessageTextView.visibility = View.GONE
+
+                        // Navigate to main activity
                         navigateToNextActivity()
                     }
                 } else {
                     Log.d("Error","Error: $response")
+                    // Error message validation is visible
+                    errorMessageTextView.visibility = View.VISIBLE
                 }
             }
 
@@ -94,13 +122,13 @@ class LoginActivity : AppCompatActivity() {
             .build()
 
         // Create EncryptedSharedPreferences
-        val sharedPreferences = EncryptedSharedPreferences.create(
+        this.sharedPreferences = EncryptedSharedPreferences.create(
             applicationContext,
             "encrypted_shared_prefs",
             masterKey,
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
+        ) as EncryptedSharedPreferences
 
         // Initialize TokenManager
         TokenManager.init(sharedPreferences)
