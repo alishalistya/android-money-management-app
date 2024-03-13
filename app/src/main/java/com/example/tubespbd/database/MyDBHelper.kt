@@ -4,9 +4,16 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.location.Location
+import android.location.LocationManager
+import android.Manifest
+import androidx.core.app.ActivityCompat
+
+import android.content.pm.PackageManager
+import com.example.tubespbd.database.MyDBHelper.Transaction
 
 class MyDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
-
+    private val context: Context = context
     data class Transaction(
         val id: Int,
         val title: String,
@@ -50,6 +57,29 @@ class MyDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
         }
         return db.insert(TABLE_NAME, null, values)
     }
+    private fun getUserLocation(locationManager: LocationManager): String {
+        // Check if the location permission is granted
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Handle the case where location permission is not granted
+            return "Location permission not granted"
+        }
+
+        // Location permission is granted, proceed with getting the location
+        val location: Location? = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+        return if (location != null) {
+            "${location.latitude}, ${location.longitude}"
+        } else {
+            "Location not available"
+        }
+    }
+
 
     fun getAllTransactions(): ArrayList<Transaction> {
         val transactionList = ArrayList<Transaction>()
@@ -58,13 +88,24 @@ class MyDBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nu
         val cursor = db.rawQuery(selectQuery, null)
         cursor?.use {
             while (cursor.moveToNext()) {
-                val id = cursor.getInt(cursor.getColumnIndex(COLUMN_ID))
-                val title = cursor.getString(cursor.getColumnIndex(COLUMN_TITLE))
-                val category = cursor.getString(cursor.getColumnIndex(COLUMN_CATEGORY))
-                val amount = cursor.getInt(cursor.getColumnIndex(COLUMN_AMOUNT))
-                val location = cursor.getString(cursor.getColumnIndex(COLUMN_LOCATION))
-                val transaction = Transaction(id, title, category, amount, location)
-                transactionList.add(transaction)
+                val idIndex = cursor.getColumnIndex(COLUMN_ID)
+                val titleIndex = cursor.getColumnIndex(COLUMN_TITLE)
+                val categoryIndex = cursor.getColumnIndex(COLUMN_CATEGORY)
+                val amountIndex = cursor.getColumnIndex(COLUMN_AMOUNT)
+                val locationIndex = cursor.getColumnIndex(COLUMN_LOCATION)
+
+                // Check if the column exists before accessing its index
+                if (idIndex != -1 && titleIndex != -1 && categoryIndex != -1 && amountIndex != -1 && locationIndex != -1) {
+                    val id = cursor.getInt(idIndex)
+                    val title = cursor.getString(titleIndex)
+                    val category = cursor.getString(categoryIndex)
+                    val amount = cursor.getInt(amountIndex)
+                    val location = cursor.getString(locationIndex)
+                    val transaction = Transaction(id, title, category, amount, location)
+                    transactionList.add(transaction)
+                } else {
+
+                }
             }
         }
         return transactionList
