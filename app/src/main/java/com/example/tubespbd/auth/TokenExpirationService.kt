@@ -13,8 +13,11 @@ import kotlinx.coroutines.Dispatchers
 import androidx.annotation.RequiresApi
 import com.example.tubespbd.LoginActivity
 import com.example.tubespbd.MainActivity
+import com.example.tubespbd.auth.TokenManager.saveToken
 import com.example.tubespbd.interfaces.TokenExpirationServiceInterface
 import com.example.tubespbd.responses.CheckResponse
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -26,16 +29,21 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 class TokenExpirationService: Service() {
+    // Background service
     private val scope = CoroutineScope(Dispatchers.Default)
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://pbd-backend-2024.vercel.app/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+
+    private var loginService: LoginService = LoginService()
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startForegroundService()
         startTokenExpirationCheck()
         return START_STICKY
     }
+
 
     private fun startForegroundService() {
         // Create notification for foreground service
@@ -66,6 +74,7 @@ class TokenExpirationService: Service() {
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun isTokenExpired(): Boolean {
         val token = TokenManager.getToken()
         var isExpired = false
@@ -81,9 +90,28 @@ class TokenExpirationService: Service() {
                 } else if (response.code() == 401) {
                     isExpired = true
                     Log.d("Expired", "Token has expired!")
-                    // Token expired, initiate logout
-                    Log.d("Redirect", "Token expired, logging out")
-                    logout()
+
+                    // If user checks keep logged in, then re-login the user with the saved credentials
+                    val preferencesManager = PreferencesManager(applicationContext)
+                    if (preferencesManager.sharedPreferences.getBoolean("keepLoggedIn", false)) {
+                        GlobalScope.launch {
+                            val tokenLogin = CredentialsManager.getEmail()
+                                ?.let { CredentialsManager.getPassword()
+                                    ?.let { it1 -> loginService.login(it, it1) } }
+
+                            if (tokenLogin != null) {
+                                TokenManager.saveToken(tokenLogin)
+                                Log.d("Token", "New token has been saved!")
+                            }
+                        }
+
+                    } else {
+                        // Not keep logged in, initiate logout
+                        Log.d("Redirect", "Token expired, logging out")
+                        logout()
+                    }
+
+
 
                 } else {
                     // Handle unsuccessful response

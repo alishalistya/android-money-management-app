@@ -1,6 +1,7 @@
 package com.example.tubespbd.auth
 
 import android.content.SharedPreferences
+import java.util.Calendar
 import java.util.Date
 
 object TokenManager {
@@ -13,7 +14,13 @@ object TokenManager {
         this.sharedPreferences = sharedPreferences
     }
 
-    fun saveToken(token: String, expirationDate: Date) {
+    fun saveToken(token: String) {
+        // Save token with 5 minutes expiration
+        val expirationCalendar = Calendar.getInstance()
+        expirationCalendar.time = Date()
+        expirationCalendar.add(Calendar.MINUTE, 5)
+        val expirationDate = expirationCalendar.time
+
         with(sharedPreferences.edit()) {
             putString(TOKEN_KEY, token)
             putLong(EXPIRATION_KEY, expirationDate.time)
