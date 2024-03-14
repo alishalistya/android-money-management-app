@@ -86,6 +86,7 @@ class TokenExpirationService: Service() {
                     val checkResponse = response.body()
                     if (checkResponse != null) {
                         isExpired = false
+                        Log.d("Active", "Token is still active")
                     }
                 } else if (response.code() == 401) {
                     isExpired = true
@@ -100,7 +101,7 @@ class TokenExpirationService: Service() {
                                     ?.let { it1 -> loginService.login(it, it1) } }
 
                             if (tokenLogin != null) {
-                                TokenManager.saveToken(tokenLogin)
+                                saveToken(tokenLogin)
                                 Log.d("Token", "New token has been saved!")
                             }
                         }
