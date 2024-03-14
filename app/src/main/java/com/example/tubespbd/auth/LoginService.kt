@@ -1,6 +1,8 @@
 package com.example.tubespbd.auth
 
+import android.content.Intent
 import android.util.Log
+import com.example.tubespbd.LoginActivity
 import com.example.tubespbd.interfaces.AuthService
 import com.example.tubespbd.responses.LoginRequest
 import com.example.tubespbd.responses.LoginResponse
@@ -42,4 +44,11 @@ class LoginService {
             }
         }
     }
+
+    fun logout() {
+        // Update the expiration, assumed the server time and client time is the same
+        TokenManager.getToken()
+    }
+
+
 }

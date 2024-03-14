@@ -109,10 +109,10 @@ class TokenExpirationService: Service() {
                     } else {
                         // Not keep logged in, initiate logout
                         Log.d("Redirect", "Token expired, logging out")
-                        logout()
+                        loginService.logout()
+                        // Navigate to login page again
+                        navigateToLogin()
                     }
-
-
 
                 } else {
                     // Handle unsuccessful response
@@ -127,13 +127,6 @@ class TokenExpirationService: Service() {
         })
 
         return isExpired
-    }
-
-    private fun logout() {
-        // Update the expiration, assumed the server time and client time is the same
-        TokenManager.getToken()
-        // Navigate to login page again
-        navigateToLogin()
     }
 
     private fun navigateToLogin() {
