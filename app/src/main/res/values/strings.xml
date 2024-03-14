@@ -14,4 +14,5 @@
     <string name="title_scan">Scan</string>
     <string name="incorrect_login">Your login credentials are not correct</string>
     <string name="incorrect_email_format">Incorrect email format!</string>
+    <string name="keep_me_logged_in">Keep me logged in</string>
 </resources>
