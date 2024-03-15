@@ -7,6 +7,7 @@
         ꦧꦺꦴꦤ꧀ꦝꦺꦴ
 ꦩꦤ꧀
     </string>
+    <string name="title_notifications">Your Notification Title</string>
     <string name="login_header_text">Selamat Datang</string>
     <string name="email_text">Email</string>
     <string name="password_text">Password</string>

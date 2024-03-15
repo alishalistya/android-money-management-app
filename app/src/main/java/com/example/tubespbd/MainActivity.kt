@@ -21,7 +21,6 @@ import androidx.room.Room
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import android.content.Intent
 import android.util.Log
 import com.google.android.material.navigation.NavigationBarView
 
@@ -74,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
