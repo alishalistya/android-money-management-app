@@ -19,6 +19,13 @@ import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import com.example.tubespbd.TransactionManager
 import android.location.LocationManager
+import com.example.tubespbd.App
+import com.example.tubespbd.database.TransactionRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHistoryBinding? = null
@@ -26,6 +33,8 @@ class HomeFragment : Fragment() {
     private lateinit var transactionAdapter: TransactionAdapter
     private val transactions = mutableListOf<Transaction>()
     private lateinit var locationManager: LocationManager
+    private lateinit var transactionRepository: TransactionRepository
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,8 +49,19 @@ class HomeFragment : Fragment() {
         transactionAdapter = TransactionAdapter(transactions)
         binding.transactionRecyclerView.adapter = transactionAdapter
 
+        // Get the AppDatabase instance from the App class
+        val appDatabase = (requireActivity().application as App).appDatabase
+        // Get the TransactionDao from the AppDatabase
+        val transactionDao = appDatabase.transactionDao()
+        // Create the TransactionRepository
+        transactionRepository = TransactionRepository(transactionDao)
+
         binding.addTransactionButton.setOnClickListener {
             addTransaction()
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            getAllTransactions()
         }
     }
 
@@ -68,13 +88,24 @@ class HomeFragment : Fragment() {
             tanggal = currentDate.toString() // Assign current datetime to tanggal
         )
 
-        transactions.add(newTransaction)
-        transactionAdapter.notifyDataSetChanged()
+        // Insert the new transaction into the database
+        CoroutineScope(Dispatchers.IO).launch {
+            transactionRepository.insertTransaction(newTransaction)
+            getAllTransactions()
+        }
 
         // Clear input fields
         binding.titleEditText.text.clear()
         binding.categoryEditText.text.clear()
         binding.amountEditText.text.clear()
+    }
+
+    private suspend fun getAllTransactions() {
+        transactions.clear()
+        transactions.addAll(transactionRepository.getAllTransactions())
+        withContext(Dispatchers.Main) {
+            transactionAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun getLocationString(): String {
@@ -110,4 +141,3 @@ class HomeFragment : Fragment() {
         )
     }
 }
-
