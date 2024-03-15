@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 class ScanViewModel : ViewModel(){
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is scan fragment"
+        value = "Pindai strukmu!"
     }
     val text: LiveData<String> = _text
 }

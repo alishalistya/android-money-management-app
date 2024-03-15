@@ -12,4 +12,5 @@
     <string name="password_text">Password</string>
     <string name="masuk_text">Masuk</string>
     <string name="title_scan">Scan</string>
+    <string name="camera_capture_text">Capture</string>
 </resources>
