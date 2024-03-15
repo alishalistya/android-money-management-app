@@ -16,6 +16,9 @@ import androidx.room.Room
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import android.content.Intent
+import android.util.Log
+import com.google.android.material.navigation.NavigationBarView
 
 import com.example.tubespbd.database.*
 
@@ -53,6 +56,23 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home, R.id.navigation_scan, R.id.navigation_dashboard, R.id.navigation_notifications
             )
         )
+
+        navView.setOnItemSelectedListener { item ->
+            Log.d("MainActivity", "Item selected: ${item.itemId}")
+            when (item.itemId) {
+                R.id.navigation_notifications -> {
+                    Log.d("MainActivity", "Navigating to HistoryActivity")
+                    val intent = Intent(this@MainActivity, HistoryActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+        }
+
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         checkAndRequestLocationPermissions()
