@@ -31,19 +31,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var locationManager: LocationManager
     private lateinit var transactionManager: TransactionManager
-//    private lateinit var appDatabase: AppDatabase
-//    private val transactionRepository by lazy { TransactionRepository(appDatabase.transactionDao()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Room Database
-//        appDatabase = Room.databaseBuilder(
-//            applicationContext,
-//            AppDatabase::class.java, "transaction.db"
-//        )
-//            .fallbackToDestructiveMigration()
-//            .build()
 
         // Routing
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -95,48 +85,12 @@ class MainActivity : AppCompatActivity() {
     private fun initializeAfterPermissionsGranted() {
         // Initialize TransactionManager after permissions are granted
         transactionManager = TransactionManager(this, locationManager)
-
-//        performDatabaseOperations()
     }
 
     private fun getLocationString(): String {
         return transactionManager.getLocationString()
     }
 
-//    private fun performDatabaseOperations() = CoroutineScope(Dispatchers.IO).launch {
-//        val locationString = if (hasLocationPermissions() && isLocationEnabled()) {
-//            getLocationString()
-//        } else {
-//            "none"
-//        }
-//
-//        // Insert a transaction
-//        val transaction = Transaction(title = "Mi Ayam", category = "Pembelian", amount = 15000f, location = locationString, tanggal = "2023-02-01 12:00:00")
-//        val transactionId = transactionRepository.insertTransaction(transaction)
-//        println("Inserted transaction with ID: $transactionId")
-//
-//        // Retrieve all transactions
-//        val transactions = transactionRepository.getAllTransactions()
-//        transactions.forEach { transaction ->
-//            println("Transaction ID: ${transaction.id}, Title: ${transaction.title}, Category: ${transaction.category}, Amount: ${transaction.amount}, Location: ${transaction.location}, Date: ${transaction.tanggal}")
-//        }
-//
-//        // Update last transaction
-//        val lastTransaction = transactions.last()
-//        val updatedTransaction = lastTransaction.copy(title = "Nasi Goreng")
-//        transactionRepository.updateTransaction(updatedTransaction)
-//        println("Updated transaction with ID: ${updatedTransaction.id}")
-//
-//        // Retrieve all transactions after update
-//        val afterUpdateTransactions = transactionRepository.getAllTransactions()
-//        afterUpdateTransactions.forEach { transaction ->
-//            println("Transaction ID: ${transaction.id}, Title: ${transaction.title}, Category: ${transaction.category}, Amount: ${transaction.amount}, Location: ${transaction.location}, Date: ${transaction.tanggal}")
-//        }
-//
-//        // Delete the last transaction
-//        transactionRepository.deleteTransaction(lastTransaction)
-//        println("Deleted transaction with ID: ${lastTransaction.id}")
-//    }
 
     private fun isLocationEnabled(): Boolean {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)

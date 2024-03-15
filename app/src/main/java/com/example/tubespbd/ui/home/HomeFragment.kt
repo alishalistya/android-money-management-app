@@ -126,8 +126,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-
-
     private fun hasLocationPermissions(): Boolean {
         return ContextCompat.checkSelfPermission(
             requireContext(),
