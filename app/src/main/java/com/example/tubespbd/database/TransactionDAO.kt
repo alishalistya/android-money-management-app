@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import androidx.lifecycle.LiveData
 
 @Dao
 interface TransactionDao {
@@ -19,4 +20,6 @@ interface TransactionDao {
 
     @Update
     fun updateTransaction(transaction: Transaction): Int
+    @Query("SELECT * FROM transactions")
+    fun getAllTransactionsLiveData(): LiveData<List<Transaction>>
 }

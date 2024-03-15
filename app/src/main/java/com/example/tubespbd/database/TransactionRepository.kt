@@ -1,5 +1,7 @@
 package com.example.tubespbd.database
 
+import androidx.lifecycle.LiveData
+
 class TransactionRepository(private val transactionDao: TransactionDao) {
 
     fun getAllTransactions(): List<Transaction> {
@@ -16,5 +18,13 @@ class TransactionRepository(private val transactionDao: TransactionDao) {
 
     fun updateTransaction(transaction: Transaction): Int {
         return transactionDao.updateTransaction(transaction)
+    }
+
+    fun getAllTransactionsLiveData(): LiveData<List<Transaction>> {
+        return transactionDao.getAllTransactionsLiveData()
+    }
+
+    suspend fun refreshTransactions() {
+        // Perform data refresh operations if needed
     }
 }
