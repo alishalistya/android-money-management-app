@@ -15,4 +15,5 @@
     <string name="incorrect_login">Your login credentials are not correct</string>
     <string name="incorrect_email_format">Incorrect email format!</string>
     <string name="keep_me_logged_in">Keep me logged in</string>
+    <string name="camera_capture_text">Capture</string>
 </resources>
