@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.tubespbd.databinding.FragmentSettingsBinding
+import com.example.tubespbd.email.MailService
 
 class SettingsFragment : Fragment() {
 
@@ -27,6 +28,16 @@ class SettingsFragment : Fragment() {
 
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        binding.sendButton.setOnClickListener {
+            val recipient = "alisha.listya@gmail.com"
+            val subject = "Subject of the Email"
+            val message = "Message body of the email."
+
+            val mailIntent = MailService()
+            mailIntent.sendEmail(requireContext(), recipient, subject, message)
+        }
+
         return root
     }
 
