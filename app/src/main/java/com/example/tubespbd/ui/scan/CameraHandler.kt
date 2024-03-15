@@ -38,7 +38,6 @@ class CameraHandler(
 
     }
 
-
     private fun bindPreview(cameraProvider: ProcessCameraProvider) {
         val previewView = binding.previewView
         val preview : Preview = Preview.Builder().build()
@@ -86,5 +85,8 @@ class CameraHandler(
         return File(outputDirectory, fileName)
     }
 
+//    private fun showPicture(): File {
+//
+//    }
 
 }
