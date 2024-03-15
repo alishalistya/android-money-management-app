@@ -15,11 +15,10 @@ import com.example.tubespbd.auth.EmailValidator
 import com.example.tubespbd.auth.LoginService
 import com.example.tubespbd.auth.PreferencesManager
 import com.example.tubespbd.auth.TokenManager
+import com.example.tubespbd.network.ConnectivityManagerService
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.util.Calendar
-import java.util.Date
 
 class LoginActivity : AppCompatActivity() {
 // TODO: UI
@@ -39,7 +38,11 @@ class LoginActivity : AppCompatActivity() {
             return // Skip further execution of onCreate()
         }
 
-        loginService = LoginService()
+        // start connectivity manager service
+        val managerIntent = Intent(applicationContext, ConnectivityManagerService::class.java)
+        applicationContext.startService(managerIntent)
+
+        loginService = LoginService(applicationContext)
 
         setContentView(R.layout.activity_login)
 
@@ -76,37 +79,38 @@ class LoginActivity : AppCompatActivity() {
     private fun attemptLogin(email: String, password: String) {
         // Launch a coroutine to perform login asynchronously
         GlobalScope.launch {
-            val token = loginService.login(email, password)
+            val token = loginService.login(email, password, applicationContext, true)
 
-            if (token.isNotEmpty()) {
-                TokenManager.saveToken(token)
-                runOnUiThread {
-                    Log.d("Token", "Token saved!")
-                    // Error message validation is gone
-                    errorMessageTextView.visibility = View.GONE
+            if (token != null) {
+                if (token.isNotEmpty()) {
+                    TokenManager.saveToken(token)
+                    runOnUiThread {
+                        Log.d("Token", "Token saved!")
+                        // Error message validation is gone
+                        errorMessageTextView.visibility = View.GONE
 
-                    // Save credentials if keepLoggedIn Checkbox is True
-                    if (keepLoggedInCheckbox.isChecked) {
-                        CredentialsManager.saveCredentials(email, password)
+                        // Save credentials if keepLoggedIn Checkbox is True
+                        if (keepLoggedInCheckbox.isChecked) {
+                            CredentialsManager.saveCredentials(email, password)
 
-                        // Save that the user wants to be kept logged in
-                        with(preferencesManager.sharedPreferences.edit()) {
-                            putBoolean("keepLoggedIn", true)
-                            apply()
+                            // Save that the user wants to be kept logged in
+                            with(preferencesManager.sharedPreferences.edit()) {
+                                putBoolean("keepLoggedIn", true)
+                                apply()
+                            }
+
+                            Log.d("Login", "Keep logged in active")
                         }
 
-                        Log.d("Login", "Keep logged in active")
+                        // Navigate to main activity
+                        navigateToNextActivity()
                     }
 
-                    // Navigate to main activity
-                    navigateToNextActivity()
-                }
-
-            }
-            else {
-                runOnUiThread {
-                    // Error message validation is visible
-                    errorMessageTextView.visibility = View.VISIBLE
+                } else {
+                    runOnUiThread {
+                        // Error message validation is visible
+                        errorMessageTextView.visibility = View.VISIBLE
+                    }
                 }
             }
         }
