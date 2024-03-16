@@ -1,3 +1,4 @@
+// AddTransactionFragment.kt
 package com.example.tubespbd.ui.home
 
 import android.os.Bundle
@@ -10,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.tubespbd.R
 import com.example.tubespbd.database.Transaction
 import com.example.tubespbd.database.TransactionAdapter
-import com.example.tubespbd.databinding.FragmentHistoryBinding
+import com.example.tubespbd.databinding.FragmentAddTransactionBinding // Updated import
 import com.example.tubespbd.databinding.FragmentHomeBinding
 import java.util.Date
 import android.Manifest
@@ -19,7 +20,6 @@ import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import com.example.tubespbd.TransactionManager
 import android.location.LocationManager
-import androidx.navigation.fragment.findNavController
 import com.example.tubespbd.App
 import com.example.tubespbd.database.TransactionRepository
 import kotlinx.coroutines.CoroutineScope
@@ -27,9 +27,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HomeFragment : Fragment() {
+class AddTransactionFragment : Fragment() {
 
-    private var _binding: FragmentHistoryBinding? = null
+    private var _binding: FragmentAddTransactionBinding? = null // Updated binding class
     private val binding get() = _binding!!
     private lateinit var transactionAdapter: TransactionAdapter
     private val transactions = mutableListOf<Transaction>()
@@ -40,7 +40,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentHistoryBinding.inflate(inflater, container, false)
+        _binding = FragmentAddTransactionBinding.inflate(inflater, container, false) // Updated layout inflation
         return binding.root
     }
 
@@ -48,7 +48,6 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         transactionAdapter = TransactionAdapter(transactions)
-        binding.transactionRecyclerView.adapter = transactionAdapter
 
         // Get the AppDatabase instance from the App class
         val appDatabase = (requireActivity().application as App).appDatabase
@@ -58,7 +57,7 @@ class HomeFragment : Fragment() {
         transactionRepository = TransactionRepository(transactionDao)
 
         binding.addTransactionButton.setOnClickListener {
-            navigateToAddTransactionFragment()
+            addTransaction()
         }
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -71,10 +70,36 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun navigateToAddTransactionFragment() {
-        // Use Navigation Component to navigate to AddTransactionFragment
-        findNavController().navigate(R.id.action_homeFragment_to_addTransactionFragment)
+    private fun addTransaction() {
+        val title = binding.titleEditText.text.toString()
+        val category = binding.categoryEditText.text.toString()
+        val amountStr = binding.amountEditText.text.toString()
+        val amount = if (amountStr.isNotEmpty()) amountStr.toFloat() else 0f
+
+        // Get location and date
+        val locationString = getLocationString()
+        val currentDate = Date()
+
+        val newTransaction = Transaction(
+            title = title,
+            category = category,
+            amount = amount,
+            location = locationString,
+            tanggal = currentDate.toString() // Assign current datetime to tanggal
+        )
+
+        // Insert the new transaction into the database
+        CoroutineScope(Dispatchers.IO).launch {
+            transactionRepository.insertTransaction(newTransaction)
+            getAllTransactions()
+        }
+
+        // Clear input fields
+        binding.titleEditText.text.clear()
+        binding.categoryEditText.text.clear()
+        binding.amountEditText.text.clear()
     }
+
     private suspend fun getAllTransactions() {
         transactions.clear()
         transactions.addAll(transactionRepository.getAllTransactions())
@@ -100,8 +125,6 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
-
 
     private fun hasLocationPermissions(): Boolean {
         return ContextCompat.checkSelfPermission(

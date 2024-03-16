@@ -76,10 +76,11 @@ class MainActivity : AppCompatActivity() {
         val serviceIntent = Intent(applicationContext, TokenExpirationService::class.java)
         applicationContext.startService(serviceIntent)
 
-        val backButton = findViewById<Button>(R.id.back_login)
-        backButton.setOnClickListener {
+//        val backButton = findViewById<Button>(R.id.back_login)
+//        backButton.setOnClickListener {
+//
+//        }
 
-        }
     }
 
     private fun initializeAfterPermissionsGranted() {
