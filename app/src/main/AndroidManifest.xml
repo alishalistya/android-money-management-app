@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" package="com.example.tubespbd">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -33,6 +35,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.NoConnectionActivity"/>
         <activity
             android:name=".LoginActivity" />
         <activity
@@ -42,6 +45,11 @@
             android:foregroundServiceType="dataSync"
             android:exported="false"
             tools:ignore="ForegroundServicePermission" />
+        <service
+            android:name=".auth.LoginService"
+            android:foregroundServiceType="dataSync"
+            android:exported="false"
+            tools:ignore="Instantiatable" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
