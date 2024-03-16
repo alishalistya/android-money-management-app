@@ -26,7 +26,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
+import androidx.navigation.fragment.findNavController
 class AddTransactionFragment : Fragment() {
 
     private var _binding: FragmentAddTransactionBinding? = null // Updated binding class
@@ -60,11 +60,18 @@ class AddTransactionFragment : Fragment() {
             addTransaction()
         }
 
+        binding.backButton.setOnClickListener {
+            navigateBack()
+        }
+
         CoroutineScope(Dispatchers.IO).launch {
             getAllTransactions()
         }
     }
-
+    private fun navigateBack() {
+        // Use Navigation Component to navigate back to HomeFragment
+        findNavController().navigateUp()
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
