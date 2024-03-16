@@ -50,15 +50,15 @@ class EditTransactionFragment : Fragment() {
                 withContext(Dispatchers.Main) {
                     binding.titleEditText.setText(transaction?.title)
                     binding.categoryEditText.setText(transaction?.category)
+                    binding.categoryEditText.visibility = View.GONE
                     binding.amountEditText.setText(transaction?.amount.toString())
+                    binding.locationEditText.setText(transaction?.location)
                 }
             }
         }
 
-        // Buat Delete button visible, karena pake fragment yang sama dengan addTransaction
         binding.deleteTransactionButton.visibility = View.VISIBLE
 
-        // Delete Button
         binding.deleteTransactionButton.setOnClickListener {
             val transactionId = arguments?.getInt("transactionId")
             if (transactionId != null) {
@@ -71,7 +71,6 @@ class EditTransactionFragment : Fragment() {
             }
         }
 
-        // Reuse button addTransaction untuk Update
         binding.addTransactionButton.setOnClickListener {
             val transactionId = arguments?.getInt("transactionId")
             Log.d("EditTransactionFragment", "Transaction ID: $transactionId")
@@ -108,19 +107,20 @@ class EditTransactionFragment : Fragment() {
         val title = binding.titleEditText.text.toString()
         val category = binding.categoryEditText.text.toString()
         val amount = binding.amountEditText.text.toString().toFloat()
-        val locationString = "Location unavailable" // HARDCODE TEMP
-        val currentDate = Date()
-
-        val updatedTransaction = Transaction(
-            id = transactionId,
-            title = title,
-            category = category,
-            amount = amount,
-            location = locationString,
-            tanggal = currentDate.toString()
-        )
+        val location = binding.locationEditText.text.toString()
 
         CoroutineScope(Dispatchers.IO).launch {
+            val transaction = transactionRepository.getTransactionById(transactionId)
+            val tanggal = transaction?.tanggal // Ambil tanggal transaksi yang lama
+
+            val updatedTransaction = Transaction(
+                id = transactionId,
+                title = title,
+                category = category,
+                amount = amount,
+                location = location,
+                tanggal = tanggal
+            )
             transactionRepository.updateTransaction(updatedTransaction)
             withContext(Dispatchers.Main) {
                 binding.titleEditText.text.clear()

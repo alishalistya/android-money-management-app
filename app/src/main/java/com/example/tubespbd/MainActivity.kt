@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getLocationString(): String {
-        return transactionManager.getLocationString()
+        return transactionManager.getLocation().toString()
     }
 
 

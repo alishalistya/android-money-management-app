@@ -86,10 +86,6 @@ class HomeFragment : Fragment() {
     private fun navigateToAddTransactionFragment() {
         findNavController().navigate(R.id.action_homeFragment_to_addTransactionFragment)
     }
-//    private fun navigateToEditTransactionFragment() {
-//        // Use Navigation Component to navigate to EditTransactionFragment
-//        findNavController().navigate(R.id.action_homeFragment_to_editTransactionFragment)
-//    }
 
     private fun navigateToEditTransactionFragment(transactionId: Int) {
         val bundle = Bundle().apply {
@@ -110,12 +106,13 @@ class HomeFragment : Fragment() {
         return when {
             hasLocationPermissions() && isLocationEnabled() -> {
                 val transactionManager = TransactionManager(requireContext(), locationManager)
-                transactionManager.getLocationString()
+                transactionManager.getLocation().toString()
             }
             !hasLocationPermissions() -> {
                 "Location denied"
             }
             else -> {
+                // Location not available
                 "Location unavailable"
             }
         }

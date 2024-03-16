@@ -17,9 +17,13 @@ import java.util.Date
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import androidx.core.content.ContextCompat
 import com.example.tubespbd.TransactionManager
 import android.location.LocationManager
+import android.util.Log
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.core.location.LocationManagerCompat.isLocationEnabled
 import com.example.tubespbd.App
 import com.example.tubespbd.database.TransactionRepository
@@ -28,6 +32,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import androidx.navigation.fragment.findNavController
+import java.util.Locale
+
 class AddTransactionFragment : Fragment() {
 
     private var _binding: FragmentAddTransactionBinding? = null // Updated binding class
@@ -52,8 +58,25 @@ class AddTransactionFragment : Fragment() {
         }
 
         val appDatabase = (requireActivity().application as App).appDatabase
+        // Get the TransactionDao from the AppDatabase
         val transactionDao = appDatabase.transactionDao()
+        // Create the TransactionRepository
         transactionRepository = TransactionRepository(transactionDao)
+
+        val categories = arrayOf("Pemasukan", "Pengeluaran")
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, categories)
+        val categoryEditText = view.findViewById<AutoCompleteTextView>(R.id.categoryEditText)
+        categoryEditText.setAdapter(adapter)
+
+        // Biar jadi drop down
+        categoryEditText.isFocusable = false
+        categoryEditText.isFocusableInTouchMode = false
+        categoryEditText.setOnClickListener {
+            categoryEditText.showDropDown()
+        }
+
+        // Nulis lokasi kalau nyalain lokasi
+        binding.locationEditText.setText(getLocationString())
 
         binding.addTransactionButton.setOnClickListener {
             addTransaction()
@@ -82,6 +105,7 @@ class AddTransactionFragment : Fragment() {
         val amountStr = binding.amountEditText.text.toString()
         val amount = if (amountStr.isNotEmpty()) amountStr.toFloat() else 0f
 
+
         val locationString = getLocationString()
         val currentDate = Date()
 
@@ -101,6 +125,7 @@ class AddTransactionFragment : Fragment() {
         binding.titleEditText.text.clear()
         binding.categoryEditText.text.clear()
         binding.amountEditText.text.clear()
+
     }
 
     private suspend fun getAllTransactions() {
@@ -114,8 +139,21 @@ class AddTransactionFragment : Fragment() {
     private fun getLocationString(): String {
         return when {
             hasLocationPermissions() && isLocationEnabled() -> {
+
                 val transactionManager = TransactionManager(requireContext(), locationManager)
-                transactionManager.getLocationString()
+                val location = transactionManager.getLocation()
+                if (location != null) {
+                    Log.d("Location", "Latitude: ${location.latitude}, Longitude: ${location.longitude}")
+                    val geocoder = Geocoder(requireContext(), Locale.getDefault())
+                    val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                    if (addresses?.isNotEmpty() == true) {
+                        addresses[0].getAddressLine(0) // Dapetin complete address
+                    } else {
+                        "Location not found"
+                    }
+                } else {
+                    "Location not available"
+                }
             }
             !hasLocationPermissions() -> {
                 "Location denied"
