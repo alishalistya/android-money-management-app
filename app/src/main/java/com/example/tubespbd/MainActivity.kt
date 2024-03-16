@@ -9,7 +9,6 @@ import androidx.core.app.ActivityCompat
 import com.example.tubespbd.databinding.ActivityMainBinding
 import android.location.LocationManager
 import android.widget.Button
-import android.widget.EditText
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController

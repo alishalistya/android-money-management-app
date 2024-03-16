@@ -36,7 +36,7 @@ class TokenExpirationService: Service() {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    private var loginService: LoginService = LoginService()
+    private var loginService: LoginService = LoginService(this)
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startForegroundService()
@@ -96,9 +96,12 @@ class TokenExpirationService: Service() {
                     val preferencesManager = PreferencesManager(applicationContext)
                     if (preferencesManager.sharedPreferences.getBoolean("keepLoggedIn", false)) {
                         GlobalScope.launch {
-                            val tokenLogin = CredentialsManager.getEmail()
-                                ?.let { CredentialsManager.getPassword()
-                                    ?.let { it1 -> loginService.login(it, it1) } }
+                            val tokenLogin = CredentialsManager.getEmail()?.let {
+                                CredentialsManager.getPassword()?.let { it1 ->
+                                    loginService.login(
+                                        it, it1, applicationContext, false)
+                                }
+                            }
 
                             if (tokenLogin != null) {
                                 saveToken(tokenLogin)
