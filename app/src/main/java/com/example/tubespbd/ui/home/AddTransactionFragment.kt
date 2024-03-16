@@ -1,3 +1,4 @@
+// AddTransactionFragment.kt
 package com.example.tubespbd.ui.home
 
 import android.os.Bundle
@@ -10,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.tubespbd.R
 import com.example.tubespbd.database.Transaction
 import com.example.tubespbd.database.TransactionAdapter
-import com.example.tubespbd.databinding.FragmentHistoryBinding
+import com.example.tubespbd.databinding.FragmentAddTransactionBinding // Updated import
 import com.example.tubespbd.databinding.FragmentHomeBinding
 import java.util.Date
 import android.Manifest
@@ -19,21 +20,17 @@ import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import com.example.tubespbd.TransactionManager
 import android.location.LocationManager
-import android.util.Log
-import android.widget.Toast
-import androidx.navigation.fragment.findNavController
+import androidx.core.location.LocationManagerCompat.isLocationEnabled
 import com.example.tubespbd.App
 import com.example.tubespbd.database.TransactionRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import androidx.navigation.fragment.findNavController
+class AddTransactionFragment : Fragment() {
 
-class HomeFragment : Fragment() {
-
-    private var isEditButtonClicked = false
-
-    private var _binding: FragmentHistoryBinding? = null
+    private var _binding: FragmentAddTransactionBinding? = null // Updated binding class
     private val binding get() = _binding!!
     private lateinit var transactionAdapter: TransactionAdapter
     private val transactions = mutableListOf<Transaction>()
@@ -44,7 +41,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentHistoryBinding.inflate(inflater, container, false)
+        _binding = FragmentAddTransactionBinding.inflate(inflater, container, false) // Updated layout inflation
         return binding.root
     }
 
@@ -52,50 +49,58 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         transactionAdapter = TransactionAdapter(transactions) { transaction ->
-            if (isEditButtonClicked) {
-                Log.d("HomeFragment", "Selected Transaction ID: ${transaction.id}")
-                navigateToEditTransactionFragment(transaction.id)
-                isEditButtonClicked = false
-            }
         }
-        binding.transactionRecyclerView.adapter = transactionAdapter
 
         val appDatabase = (requireActivity().application as App).appDatabase
         val transactionDao = appDatabase.transactionDao()
         transactionRepository = TransactionRepository(transactionDao)
 
         binding.addTransactionButton.setOnClickListener {
-            navigateToAddTransactionFragment()
+            addTransaction()
+            navigateBack()
         }
 
-        binding.editTransactionButton.setOnClickListener {
-            isEditButtonClicked = true
-            Toast.makeText(context, "Please select a transaction to edit.", Toast.LENGTH_SHORT).show()
+        binding.backButton.setOnClickListener {
+            navigateBack()
         }
 
         CoroutineScope(Dispatchers.IO).launch {
             getAllTransactions()
         }
     }
-
+    private fun navigateBack() {
+        findNavController().navigateUp()
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    private fun navigateToAddTransactionFragment() {
-        findNavController().navigate(R.id.action_homeFragment_to_addTransactionFragment)
-    }
-//    private fun navigateToEditTransactionFragment() {
-//        // Use Navigation Component to navigate to EditTransactionFragment
-//        findNavController().navigate(R.id.action_homeFragment_to_editTransactionFragment)
-//    }
+    private fun addTransaction() {
+        val title = binding.titleEditText.text.toString()
+        val category = binding.categoryEditText.text.toString()
+        val amountStr = binding.amountEditText.text.toString()
+        val amount = if (amountStr.isNotEmpty()) amountStr.toFloat() else 0f
 
-    private fun navigateToEditTransactionFragment(transactionId: Int) {
-        val bundle = Bundle().apply {
-            putInt("transactionId", transactionId)
+        val locationString = getLocationString()
+        val currentDate = Date()
+
+        val newTransaction = Transaction(
+            title = title,
+            category = category,
+            amount = amount,
+            location = locationString,
+            tanggal = currentDate.toString()
+        )
+
+        CoroutineScope(Dispatchers.IO).launch {
+            transactionRepository.insertTransaction(newTransaction)
+            getAllTransactions()
         }
-        findNavController().navigate(R.id.action_homeFragment_to_editTransactionFragment, bundle)
+
+        binding.titleEditText.text.clear()
+        binding.categoryEditText.text.clear()
+        binding.amountEditText.text.clear()
     }
 
     private suspend fun getAllTransactions() {
@@ -120,7 +125,6 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
 
     private fun hasLocationPermissions(): Boolean {
         return ContextCompat.checkSelfPermission(
