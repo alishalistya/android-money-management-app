@@ -10,7 +10,7 @@ import com.example.tubespbd.database.*
 
 class App : Application() {
     lateinit var appDatabase: AppDatabase
-    private val transactionRepository by lazy { TransactionRepository(appDatabase.transactionDao()) }
+    val transactionRepository by lazy { TransactionRepository(appDatabase.transactionDao()) }
 
     override fun onCreate() {
         super.onCreate()
