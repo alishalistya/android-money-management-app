@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.tubespbd.LoginActivity
 import com.example.tubespbd.R
 import com.example.tubespbd.auth.LoginService
+import com.example.tubespbd.auth.TokenManager
 import com.example.tubespbd.databinding.FragmentSettingsBinding
 import com.example.tubespbd.email.MailService
 
@@ -51,8 +52,8 @@ class SettingsFragment : Fragment() {
 
         val logoutButton = view.findViewById<Button>(R.id.logout_button)
         logoutButton.setOnClickListener {
-            val loginService = LoginService()
-            loginService.logout()
+            // delete token
+            TokenManager.clearToken()
             val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)
         }
