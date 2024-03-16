@@ -12,9 +12,4 @@ class HomeViewModel(private val transactionRepository: TransactionRepository) : 
 
     val transactions: List<Transaction> = transactionRepository.getAllTransactions()
 
-    init {
-        viewModelScope.launch {
-            transactionRepository.refreshTransactions()
-        }
-    }
 }

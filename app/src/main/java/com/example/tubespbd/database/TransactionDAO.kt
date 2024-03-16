@@ -12,6 +12,9 @@ interface TransactionDao {
     @Query("SELECT * FROM transactions")
     fun getAllTransactions(): List<Transaction>
 
+    @Query("SELECT * FROM transactions WHERE id = :transactionId")
+    fun getTransactionById(transactionId: Int): Transaction
+
     @Insert
     fun insertTransaction(transaction: Transaction): Long
 
@@ -20,6 +23,7 @@ interface TransactionDao {
 
     @Update
     fun updateTransaction(transaction: Transaction): Int
-    @Query("SELECT * FROM transactions")
-    fun getAllTransactionsLiveData(): LiveData<List<Transaction>>
+
+    @Query("DELETE FROM transactions WHERE id = :transactionId")
+    fun deleteTransactionById(transactionId: Int): Int
 }

@@ -19,6 +19,8 @@ import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import com.example.tubespbd.TransactionManager
 import android.location.LocationManager
+import android.util.Log
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.tubespbd.App
 import com.example.tubespbd.database.TransactionRepository
@@ -28,6 +30,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment() {
+
+    private var isEditButtonClicked = false
 
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
@@ -47,18 +51,26 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        transactionAdapter = TransactionAdapter(transactions)
+        transactionAdapter = TransactionAdapter(transactions) { transaction ->
+            if (isEditButtonClicked) {
+                Log.d("HomeFragment", "Selected Transaction ID: ${transaction.id}")
+                navigateToEditTransactionFragment(transaction.id)
+                isEditButtonClicked = false
+            }
+        }
         binding.transactionRecyclerView.adapter = transactionAdapter
 
-        // Get the AppDatabase instance from the App class
         val appDatabase = (requireActivity().application as App).appDatabase
-        // Get the TransactionDao from the AppDatabase
         val transactionDao = appDatabase.transactionDao()
-        // Create the TransactionRepository
         transactionRepository = TransactionRepository(transactionDao)
 
         binding.addTransactionButton.setOnClickListener {
             navigateToAddTransactionFragment()
+        }
+
+        binding.editTransactionButton.setOnClickListener {
+            isEditButtonClicked = true
+            Toast.makeText(context, "Please select a transaction to edit.", Toast.LENGTH_SHORT).show()
         }
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -72,9 +84,20 @@ class HomeFragment : Fragment() {
     }
 
     private fun navigateToAddTransactionFragment() {
-        // Use Navigation Component to navigate to AddTransactionFragment
         findNavController().navigate(R.id.action_homeFragment_to_addTransactionFragment)
     }
+//    private fun navigateToEditTransactionFragment() {
+//        // Use Navigation Component to navigate to EditTransactionFragment
+//        findNavController().navigate(R.id.action_homeFragment_to_editTransactionFragment)
+//    }
+
+    private fun navigateToEditTransactionFragment(transactionId: Int) {
+        val bundle = Bundle().apply {
+            putInt("transactionId", transactionId)
+        }
+        findNavController().navigate(R.id.action_homeFragment_to_editTransactionFragment, bundle)
+    }
+
     private suspend fun getAllTransactions() {
         transactions.clear()
         transactions.addAll(transactionRepository.getAllTransactions())
@@ -86,21 +109,17 @@ class HomeFragment : Fragment() {
     private fun getLocationString(): String {
         return when {
             hasLocationPermissions() && isLocationEnabled() -> {
-                // Get location if permission is granted and location is enabled
                 val transactionManager = TransactionManager(requireContext(), locationManager)
                 transactionManager.getLocationString()
             }
             !hasLocationPermissions() -> {
-                // Location permissions not granted
                 "Location denied"
             }
             else -> {
-                // Location not available
                 "Location unavailable"
             }
         }
     }
-
 
 
     private fun hasLocationPermissions(): Boolean {

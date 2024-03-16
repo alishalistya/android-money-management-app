@@ -20,6 +20,7 @@ import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import com.example.tubespbd.TransactionManager
 import android.location.LocationManager
+import androidx.core.location.LocationManagerCompat.isLocationEnabled
 import com.example.tubespbd.App
 import com.example.tubespbd.database.TransactionRepository
 import kotlinx.coroutines.CoroutineScope
@@ -47,17 +48,16 @@ class AddTransactionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        transactionAdapter = TransactionAdapter(transactions)
+        transactionAdapter = TransactionAdapter(transactions) { transaction ->
+        }
 
-        // Get the AppDatabase instance from the App class
         val appDatabase = (requireActivity().application as App).appDatabase
-        // Get the TransactionDao from the AppDatabase
         val transactionDao = appDatabase.transactionDao()
-        // Create the TransactionRepository
         transactionRepository = TransactionRepository(transactionDao)
 
         binding.addTransactionButton.setOnClickListener {
             addTransaction()
+            navigateBack()
         }
 
         binding.backButton.setOnClickListener {
@@ -69,7 +69,6 @@ class AddTransactionFragment : Fragment() {
         }
     }
     private fun navigateBack() {
-        // Use Navigation Component to navigate back to HomeFragment
         findNavController().navigateUp()
     }
     override fun onDestroyView() {
@@ -83,7 +82,6 @@ class AddTransactionFragment : Fragment() {
         val amountStr = binding.amountEditText.text.toString()
         val amount = if (amountStr.isNotEmpty()) amountStr.toFloat() else 0f
 
-        // Get location and date
         val locationString = getLocationString()
         val currentDate = Date()
 
@@ -92,16 +90,14 @@ class AddTransactionFragment : Fragment() {
             category = category,
             amount = amount,
             location = locationString,
-            tanggal = currentDate.toString() // Assign current datetime to tanggal
+            tanggal = currentDate.toString()
         )
 
-        // Insert the new transaction into the database
         CoroutineScope(Dispatchers.IO).launch {
             transactionRepository.insertTransaction(newTransaction)
             getAllTransactions()
         }
 
-        // Clear input fields
         binding.titleEditText.text.clear()
         binding.categoryEditText.text.clear()
         binding.amountEditText.text.clear()
@@ -118,16 +114,13 @@ class AddTransactionFragment : Fragment() {
     private fun getLocationString(): String {
         return when {
             hasLocationPermissions() && isLocationEnabled() -> {
-                // Get location if permission is granted and location is enabled
                 val transactionManager = TransactionManager(requireContext(), locationManager)
                 transactionManager.getLocationString()
             }
             !hasLocationPermissions() -> {
-                // Location permissions not granted
                 "Location denied"
             }
             else -> {
-                // Location not available
                 "Location unavailable"
             }
         }
