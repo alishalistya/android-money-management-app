@@ -7,6 +7,6 @@ class HistoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_history)
-        // Initialize your UI here if needed
+
     }
 }

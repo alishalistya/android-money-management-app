@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tubespbd.R
 import com.example.tubespbd.database.Transaction
 
-class TransactionAdapter(private val transactions: List<Transaction>) :
+class TransactionAdapter(private val transactions: List<Transaction>, private val itemClickListener: (Transaction) -> Unit) :
     RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
     inner class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -32,6 +33,9 @@ class TransactionAdapter(private val transactions: List<Transaction>) :
         holder.amountTextView.text = currentItem.amount.toString()
         holder.dateTextView.text = currentItem.tanggal
         holder.locationTextView.text = currentItem.location
+        holder.itemView.setOnClickListener {
+            itemClickListener(currentItem)
+        }
     }
 
     override fun getItemCount() = transactions.size

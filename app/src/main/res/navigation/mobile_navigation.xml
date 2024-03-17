@@ -39,4 +39,16 @@
         android:label="Add Transaction"
         tools:layout="@layout/fragment_add_transaction" />
 
+    <action
+        android:id="@+id/action_homeFragment_to_editTransactionFragment"
+        app:destination="@id/editTransactionFragment">
+        <argument
+            android:name="transactionId"
+            app:argType="integer" />
+    </action>
+    <fragment
+        android:id="@+id/editTransactionFragment"
+        android:name="com.example.tubespbd.ui.home.EditTransactionFragment"
+        android:label="EditTransactionFragment" />
+
 </navigation>
