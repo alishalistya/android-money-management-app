@@ -2,8 +2,6 @@ package com.example.tubespbd.ui.graph
 
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.map
@@ -21,9 +19,9 @@ class GraphViewModel(private val transactionRepository: TransactionRepository) :
         val pieEntries = ArrayList<PieEntry>()
         val colors = mutableListOf<Int>()
 
-        transactionSums.forEach { transactionSum ->
+        transactionSums.forEachIndexed() { index, transactionSum ->
             pieEntries.add(PieEntry(transactionSum.amount.toFloat(), transactionSum.category))
-            colors.add(ColorTemplate.MATERIAL_COLORS.random())
+            colors.add(ColorTemplate.PASTEL_COLORS[index % ColorTemplate.PASTEL_COLORS.size])
         }
 
         val pieDataSet = PieDataSet(pieEntries, "Transaction Categories").apply {
