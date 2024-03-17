@@ -12,6 +12,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import java.io.File
+import java.io.FileOutputStream
 import java.io.OutputStream
 import kotlin.reflect.full.memberProperties
 
@@ -64,6 +66,18 @@ class SaveExcelService(private val context: Context) {
             }
             workbook.write(outputStream)
             workbook.close()
+        }
+    }
+
+    suspend fun generateDocument(transactions: List<Transaction>):File{
+        return withContext(Dispatchers.IO) {
+            val directoryPath = context.filesDir.path
+            val fileName = "transactions.xlsx"
+            val file = File(directoryPath, fileName)
+            FileOutputStream(file).use { outputStream ->
+                generateExcelFile(outputStream, transactions)
+            }
+            file
         }
     }
 }

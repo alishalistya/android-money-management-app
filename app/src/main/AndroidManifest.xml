@@ -39,6 +39,15 @@
             android:name=".LoginActivity" />
         <activity
             android:name=".MainActivity" />
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.tubespbd.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
         <service
             android:name=".auth.TokenExpirationService"
             android:foregroundServiceType="dataSync"

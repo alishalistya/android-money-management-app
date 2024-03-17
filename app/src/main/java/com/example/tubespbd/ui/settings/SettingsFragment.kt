@@ -62,12 +62,7 @@ class SettingsFragment : Fragment() {
             }
 
             sendButton.setOnClickListener {
-                val recipient = "alisha.listya@gmail.com"
-                val subject = "Subject of the Email"
-                val message = "Message body of the email."
-
-                val mailIntent = MailService()
-                mailIntent.sendEmail(requireContext(), recipient, subject, message)
+                settingsViewModel.prepareEmail(requireActivity(), this@SettingsFragment)
             }
 
             logoutButton.setOnClickListener {
@@ -83,5 +78,4 @@ class SettingsFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }
