@@ -15,9 +15,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.OutputStream
 import kotlin.reflect.full.memberProperties
 
-
 class SaveExcelService(private val context: Context) {
-
     fun createExcelDocument(transactions: List<Transaction>) {
         CoroutineScope(Dispatchers.Main).launch {
             try {
@@ -26,7 +24,6 @@ class SaveExcelService(private val context: Context) {
                     put(MediaStore.MediaColumns.MIME_TYPE, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                     put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOCUMENTS)
                 }
-
                 val uri = context.contentResolver.insert(
                     MediaStore.Files.getContentUri("external"),
                     values
