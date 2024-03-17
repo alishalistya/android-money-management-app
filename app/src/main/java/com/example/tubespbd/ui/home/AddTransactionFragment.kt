@@ -17,7 +17,6 @@ import java.util.Date
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Geocoder
 import androidx.core.content.ContextCompat
 import com.example.tubespbd.TransactionManager
 import android.location.LocationManager
@@ -114,21 +113,17 @@ class AddTransactionFragment : Fragment() {
         val amountStr = binding.amountEditText.text.toString()
         val amount = if (amountStr.isNotEmpty()) amountStr.toFloat() else 0f
 
-        var locationString = ""
         CoroutineScope(Dispatchers.IO).launch {
-            locationString = getLocationString()
-        }
-        val currentDate = Date()
+            var locationString = getLocationString()
+            val currentDate = Date()
 
-        val newTransaction = Transaction(
-            title = title,
-            category = category,
-            amount = amount,
-            location = locationString,
-            tanggal = currentDate.toString()
-        )
-
-        CoroutineScope(Dispatchers.IO).launch {
+            val newTransaction = Transaction(
+                title = title,
+                category = category,
+                amount = amount,
+                location = locationString,
+                tanggal = currentDate.toString()
+            )
             transactionRepository.insertTransaction(newTransaction)
             getAllTransactions()
         }
