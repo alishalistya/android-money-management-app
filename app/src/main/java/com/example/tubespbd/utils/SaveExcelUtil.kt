@@ -17,7 +17,7 @@ import java.io.FileOutputStream
 import java.io.OutputStream
 import kotlin.reflect.full.memberProperties
 
-class SaveExcelService(private val context: Context) {
+class SaveExcelUtil(private val context: Context) {
     fun createExcelDocument(transactions: List<Transaction>) {
         CoroutineScope(Dispatchers.Main).launch {
             try {

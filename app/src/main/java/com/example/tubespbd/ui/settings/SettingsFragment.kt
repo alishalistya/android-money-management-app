@@ -1,8 +1,5 @@
 package com.example.tubespbd.ui.settings
 
-import android.app.Activity
-import android.net.Uri
-import kotlinx.coroutines.launch
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,19 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.example.tubespbd.App
 import com.example.tubespbd.LoginActivity
 import com.example.tubespbd.auth.LoginService
 import com.example.tubespbd.databinding.FragmentSettingsBinding
-import com.example.tubespbd.utils.MailService
-import com.example.tubespbd.utils.SaveExcelService
 
 class SettingsFragment : Fragment() {
-    private lateinit var createDocumentLauncher: ActivityResultLauncher<String>
     private var _binding: FragmentSettingsBinding? = null
 
     // This property is only valid between onCreateView and

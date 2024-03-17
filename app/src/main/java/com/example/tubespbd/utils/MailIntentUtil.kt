@@ -6,7 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.widget.Toast
 
-class MailService {
+class MailIntentUtil {
     fun sendEmail(context: Context, recipient: String, subject: String, message: String, uri: Uri) {
         // Intent Initializer
         val mIntent = Intent(Intent.ACTION_SEND).apply {

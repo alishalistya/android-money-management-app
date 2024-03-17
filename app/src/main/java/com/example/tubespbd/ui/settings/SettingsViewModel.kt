@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.tubespbd.database.Transaction
 import com.example.tubespbd.database.TransactionRepository
-import com.example.tubespbd.utils.MailService
-import com.example.tubespbd.utils.SaveExcelService
+import com.example.tubespbd.utils.MailIntentUtil
+import com.example.tubespbd.utils.SaveExcelUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,21 +34,21 @@ class SettingsViewModel(private val transactionRepository: TransactionRepository
     // Save to Excel
     fun saveToExcel(activity: Activity) {
         val transactions = allTransactions.value ?: emptyList()
-        val saveExcelService = SaveExcelService(activity)
-        saveExcelService.createExcelDocument(transactions)
+        val saveExcelUtil = SaveExcelUtil(activity)
+        saveExcelUtil.createExcelDocument(transactions)
     }
 
     fun prepareEmail(activity: Activity, fragment: Fragment) {
-        val saveExcelService = SaveExcelService(activity)
+        val saveExcelUtil = SaveExcelUtil(activity)
         val recipient = "alisha.listya@gmail.com"
         val subject = "Subject of the Email"
         val message = "Message body of the email."
-        val mailIntent = MailService()
+        val mailIntent = MailIntentUtil()
 
         // Access the value of LiveData
         allTransactions.value?.let { transactionsList ->
             CoroutineScope(Dispatchers.Main).launch {
-                val file = saveExcelService.generateDocument(transactionsList)
+                val file = saveExcelUtil.generateDocument(transactionsList)
 
                 if (file != null) {
                     val fileUri = FileProvider.getUriForFile(
