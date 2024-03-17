@@ -81,14 +81,14 @@ class MainActivity : AppCompatActivity() {
         transactionManager = TransactionManager(this, locationManager)
     }
 
-    private fun getLocationString(): String {
-        return transactionManager.getLocation().toString()
-    }
+//    private fun getLocationString(): String {
+//        return transactionManager.getLocationString()
+//    }
 
 
-    private fun isLocationEnabled(): Boolean {
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-    }
+//    private fun isLocationEnabled(): Boolean {
+//        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+//    }
 
     private fun hasLocationPermissions() = ActivityCompat.checkSelfPermission(
         this, Manifest.permission.ACCESS_FINE_LOCATION

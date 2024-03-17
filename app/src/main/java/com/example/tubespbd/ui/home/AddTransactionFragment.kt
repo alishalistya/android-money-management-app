@@ -1,4 +1,3 @@
-// AddTransactionFragment.kt
 package com.example.tubespbd.ui.home
 
 import android.os.Bundle
@@ -11,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.tubespbd.R
 import com.example.tubespbd.database.Transaction
 import com.example.tubespbd.database.TransactionAdapter
-import com.example.tubespbd.databinding.FragmentAddTransactionBinding // Updated import
+import com.example.tubespbd.databinding.FragmentAddTransactionBinding
 import com.example.tubespbd.databinding.FragmentHomeBinding
 import java.util.Date
 import android.Manifest
@@ -24,6 +23,7 @@ import android.location.LocationManager
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.location.LocationManagerCompat.isLocationEnabled
 import com.example.tubespbd.App
 import com.example.tubespbd.database.TransactionRepository
@@ -31,6 +31,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.TimeoutCancellationException
+
 import androidx.navigation.fragment.findNavController
 import java.util.Locale
 
@@ -76,10 +79,15 @@ class AddTransactionFragment : Fragment() {
         }
 
         // Nulis lokasi kalau nyalain lokasi
-        binding.locationEditText.setText(getLocationString())
+        CoroutineScope(Dispatchers.Main).launch {
+            val locationString = getLocationString()
+            binding.locationEditText.setText(locationString)
+        }
 
         binding.addTransactionButton.setOnClickListener {
-            addTransaction()
+            CoroutineScope(Dispatchers.IO).launch {
+                addTransaction()
+            }
             navigateBack()
         }
 
@@ -105,8 +113,10 @@ class AddTransactionFragment : Fragment() {
         val amountStr = binding.amountEditText.text.toString()
         val amount = if (amountStr.isNotEmpty()) amountStr.toFloat() else 0f
 
-
-        val locationString = getLocationString()
+        var locationString = ""
+        CoroutineScope(Dispatchers.IO).launch {
+            locationString = getLocationString()
+        }
         val currentDate = Date()
 
         val newTransaction = Transaction(
@@ -136,7 +146,7 @@ class AddTransactionFragment : Fragment() {
         }
     }
 
-    private fun getLocationString(): String {
+    private suspend fun getLocationString(): String {
         return when {
             hasLocationPermissions() && isLocationEnabled() -> {
                 val transactionManager = TransactionManager(requireContext(), locationManager)
