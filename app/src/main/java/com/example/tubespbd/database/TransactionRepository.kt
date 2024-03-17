@@ -27,4 +27,9 @@ class TransactionRepository(private val transactionDao: TransactionDao) {
     suspend fun deleteTransactionById(transactionId: Int) {
         transactionDao.deleteTransactionById(transactionId)
     }
+
+    fun getAllTransactionsLiveData(): LiveData<List<Transaction>> {
+        return transactionDao.getAllTransactionsLiveData()
+    }
+
 }

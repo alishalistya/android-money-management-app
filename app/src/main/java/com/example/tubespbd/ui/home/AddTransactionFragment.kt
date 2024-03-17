@@ -139,21 +139,8 @@ class AddTransactionFragment : Fragment() {
     private fun getLocationString(): String {
         return when {
             hasLocationPermissions() && isLocationEnabled() -> {
-
                 val transactionManager = TransactionManager(requireContext(), locationManager)
-                val location = transactionManager.getLocation()
-                if (location != null) {
-                    Log.d("Location", "Latitude: ${location.latitude}, Longitude: ${location.longitude}")
-                    val geocoder = Geocoder(requireContext(), Locale.getDefault())
-                    val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                    if (addresses?.isNotEmpty() == true) {
-                        addresses[0].getAddressLine(0) // Dapetin complete address
-                    } else {
-                        "Location not found"
-                    }
-                } else {
-                    "Location not available"
-                }
+                transactionManager.getLocationString()
             }
             !hasLocationPermissions() -> {
                 "Location denied"
@@ -163,6 +150,7 @@ class AddTransactionFragment : Fragment() {
             }
         }
     }
+
 
     private fun hasLocationPermissions(): Boolean {
         return ContextCompat.checkSelfPermission(

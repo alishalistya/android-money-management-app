@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var locationManager: LocationManager
     private lateinit var transactionManager: TransactionManager
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -63,7 +64,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
@@ -75,15 +75,9 @@ class MainActivity : AppCompatActivity() {
         val serviceIntent = Intent(applicationContext, TokenExpirationService::class.java)
         applicationContext.startService(serviceIntent)
 
-//        val backButton = findViewById<Button>(R.id.back_login)
-//        backButton.setOnClickListener {
-//
-//        }
-
     }
 
     private fun initializeAfterPermissionsGranted() {
-        // Initialize TransactionManager after permissions are granted
         transactionManager = TransactionManager(this, locationManager)
     }
 

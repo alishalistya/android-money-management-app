@@ -26,4 +26,8 @@ interface TransactionDao {
 
     @Query("DELETE FROM transactions WHERE id = :transactionId")
     fun deleteTransactionById(transactionId: Int): Int
+
+    @Query("SELECT * FROM transactions")
+    fun getAllTransactionsLiveData(): LiveData<List<Transaction>>
+
 }
