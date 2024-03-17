@@ -39,7 +39,7 @@ object TokenManager {
         return sharedPreferences.getString(TOKEN_KEY, null)
     }
 
-    private fun clearToken() {
+    fun clearToken() {
         with(sharedPreferences.edit()) {
             remove(TOKEN_KEY)
             remove(EXPIRATION_KEY)

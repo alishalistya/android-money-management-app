@@ -1,32 +1,43 @@
 package com.example.tubespbd.auth
 
+import android.app.Service
+import android.content.Context
 import android.content.Intent
+import android.os.IBinder
 import android.util.Log
-import com.example.tubespbd.LoginActivity
 import com.example.tubespbd.interfaces.AuthService
+import com.example.tubespbd.network.ConnectivityManagerService
 import com.example.tubespbd.responses.LoginRequest
-import com.example.tubespbd.responses.LoginResponse
+import com.example.tubespbd.ui.NoConnectionActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class LoginService {
+class LoginService(private val context: Context): Service() {
 
+    private lateinit var authService: AuthService
 
-    suspend fun login(email: String, password: String): String {
+    suspend fun login(email: String, password: String, context: Context, isFirst: Boolean): String? {
 
         // Build the retrofit
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://pbd-backend-2024.vercel.app/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl("https://pbd-backend-2024.vercel.app/")
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+        val connectivityManagerService = ConnectivityManagerService()
 
         // Create AuthService, using LoginRequest and returns a callback LoginResponse
-        val authService = retrofit.create(AuthService::class.java)
+        val retrofit = connectivityManagerService.getConnection(context)
+
+        if (retrofit != null) {
+            authService = retrofit.create(AuthService::class.java)
+        } else {
+            if (isFirst) {
+                navigateToNoConnection()
+            }
+            return null
+        }
 
         return withContext(Dispatchers.IO) {
             try {
@@ -50,5 +61,14 @@ class LoginService {
         TokenManager.getToken()
     }
 
+    private fun navigateToNoConnection() {
+        val intent = Intent(context, NoConnectionActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        context.startActivity(intent)
+    }
+
+    override fun onBind(intent: Intent?): IBinder? {
+        return null
+    }
 
 }

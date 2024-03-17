@@ -79,6 +79,14 @@ dependencies {
 
     // Chart
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    // Save to excel feature
+    implementation("org.apache.poi:poi:3.17")
+    implementation("org.apache.poi:poi-ooxml:3.17")
+    implementation("javax.xml.stream:stax-api:1.0")
+    implementation("org.apache.xmlbeans:xmlbeans:3.1.0")
+    implementation("com.fasterxml:aalto-xml:1.2.2")
+    implementation("com.opencsv:opencsv:3.7")
+    implementation(kotlin("reflect"))
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

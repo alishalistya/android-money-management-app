@@ -20,11 +20,16 @@ class TransactionRepository(private val transactionDao: TransactionDao) {
         return transactionDao.updateTransaction(transaction)
     }
 
+    suspend fun getTransactionById(transactionId: Int): Transaction? {
+        return transactionDao.getTransactionById(transactionId)
+    }
+
+    suspend fun deleteTransactionById(transactionId: Int) {
+        transactionDao.deleteTransactionById(transactionId)
+    }
+
     fun getAllTransactionsLiveData(): LiveData<List<Transaction>> {
         return transactionDao.getAllTransactionsLiveData()
     }
 
-    suspend fun refreshTransactions() {
-        // Perform data refresh operations if needed
-    }
 }
