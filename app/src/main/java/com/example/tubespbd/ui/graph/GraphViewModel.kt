@@ -1,63 +1,49 @@
 package com.example.tubespbd.ui.graph
 
-import android.graphics.Color
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+
 import androidx.lifecycle.ViewModel
-import com.github.mikephil.charting.charts.PieChart
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.map
+import com.example.tubespbd.database.TransactionRepository
+import com.example.tubespbd.database.TransactionSum
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.utils.ColorTemplate
 
+class GraphViewModel(private val transactionRepository: TransactionRepository) : ViewModel() {
+    private val _allTransactions: LiveData<List<TransactionSum>> = transactionRepository.getTransactionsSumByCategoryLiveData()
 
-class GraphViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
-    }
-    val text: LiveData<String> = _text
-
-    private val _pieChartData = MutableLiveData<PieData>()
-    val pieChartData: LiveData<PieData> = _pieChartData
-
-    init {
-        dummyGraph()
-    }
-
-    private fun dummyGraph(){
+    val pieChartData: LiveData<PieData> = _allTransactions.map { transactionSums ->
         val pieEntries = ArrayList<PieEntry>()
-        val label = "type"
+        val colors = mutableListOf<Int>()
 
-        // Initializing data
-        val typeAmountMap = mapOf("Toys" to 200, "Snacks" to 230, "Clothes" to 100, "Stationary" to 500, "Phone" to 50)
-
-        // Initializing colors for the entries
-        val colors = listOf(
-            Color.parseColor("#304567"),
-            Color.parseColor("#309967"),
-            Color.parseColor("#476567"),
-            Color.parseColor("#890567"),
-            Color.parseColor("#a35567"),
-            Color.parseColor("#ff5f67"),
-            Color.parseColor("#3ca567")
-        )
-
-        // Input data and fit data into pie chart entry
-        typeAmountMap.forEach { (type, amount) ->
-            pieEntries.add(PieEntry(amount.toFloat(), type))
+        transactionSums.forEach { transactionSum ->
+            pieEntries.add(PieEntry(transactionSum.amount.toFloat(), transactionSum.category))
+            colors.add(ColorTemplate.MATERIAL_COLORS.random())
         }
 
-        // Collecting the entries with label name
-        val pieDataSet = PieDataSet(pieEntries, label).apply {
+        val pieDataSet = PieDataSet(pieEntries, "Transaction Categories").apply {
             valueTextSize = 12f
             setColors(colors)
         }
 
-        val pieData = PieData(pieDataSet).apply {
+        PieData(pieDataSet).apply {
             setDrawValues(true)
         }
+    }
+}
 
-        // Post the pieData to LiveData
-        _pieChartData.postValue(pieData)
+
+class GraphViewModelFactory(private val transactionRepository : TransactionRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(GraphViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return GraphViewModel(transactionRepository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

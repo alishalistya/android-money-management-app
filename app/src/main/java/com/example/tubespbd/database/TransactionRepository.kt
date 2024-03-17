@@ -32,4 +32,9 @@ class TransactionRepository(private val transactionDao: TransactionDao) {
         return transactionDao.getAllTransactionsLiveData()
     }
 
+    fun getTransactionsSumByCategoryLiveData(): LiveData<List<TransactionSum>> {
+        return transactionDao.getTransactionsSumByCategory()
+    }
+
+
 }

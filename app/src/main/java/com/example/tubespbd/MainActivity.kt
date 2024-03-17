@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         navView.setOnItemSelectedListener { item ->
             Log.d("MainActivity", "Item selected: ${item.itemId}")
             when (item.itemId) {
-                R.id.navigation_notifications -> {
+                R.id.navigation_home -> {
                     Log.d("MainActivity", "Navigating to HistoryActivity")
                     val intent = Intent(this@MainActivity, HistoryActivity::class.java)
                     startActivity(intent)
