@@ -12,3 +12,7 @@ data class Transaction(
     val location: String?,
     val tanggal: String?
 )
+data class TransactionSum(
+    val category: String,
+    val amount: Float
+)

@@ -30,4 +30,7 @@ interface TransactionDao {
     @Query("SELECT * FROM transactions")
     fun getAllTransactionsLiveData(): LiveData<List<Transaction>>
 
+    @Query("SELECT category, SUM(amount) as amount FROM transactions GROUP BY category")
+    fun getTransactionsSumByCategory(): LiveData<List<TransactionSum>>
+
 }
