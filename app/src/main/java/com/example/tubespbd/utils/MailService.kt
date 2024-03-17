@@ -1,4 +1,4 @@
-package com.example.tubespbd.email
+package com.example.tubespbd.utils
 
 import android.content.Context
 import android.content.Intent

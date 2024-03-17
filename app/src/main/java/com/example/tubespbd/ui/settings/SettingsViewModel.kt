@@ -1,5 +1,6 @@
 package com.example.tubespbd.ui.settings
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.tubespbd.database.Transaction
 import com.example.tubespbd.database.TransactionRepository
+import com.example.tubespbd.utils.SaveExcelService
 import kotlinx.coroutines.launch
 import java.time.temporal.TemporalAmount
 
@@ -21,6 +23,19 @@ class SettingsViewModel(private val transactionRepository: TransactionRepository
     val allTransactions: LiveData<List<Transaction>> = transactionRepository.getAllTransactionsLiveData();
     fun getAllTransactionsLiveData() = viewModelScope.launch {
         transactionRepository.getAllTransactionsLiveData()
+    }
+
+    fun saveToExcel(){
+        val saveService = SaveExcelService()
+        allTransactions.value?.let { transactions ->
+            viewModelScope.launch {
+                try {
+                    saveService.generateExcelFile(transactions,)
+                } catch (e: Exception) {
+                    Log.e("Settings fragment", e.toString())
+                }
+            }
+        }
     }
 }
 
