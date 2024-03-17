@@ -1,4 +1,3 @@
-// AddTransactionFragment.kt
 package com.example.tubespbd.ui.home
 
 import android.os.Bundle
