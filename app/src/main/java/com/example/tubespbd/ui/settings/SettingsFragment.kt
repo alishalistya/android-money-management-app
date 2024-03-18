@@ -56,7 +56,11 @@ class SettingsFragment : Fragment() {
             }
 
             sendButton.setOnClickListener {
-//                settingsViewModel.prepareEmail(requireActivity(), this@SettingsFragment)
+                settingsViewModel.prepareEmail(requireActivity(), this@SettingsFragment)
+
+            }
+
+            sendBcButton.setOnClickListener {
                 context?.sendBroadcast(Intent("RANDOMIZE"))
                 Log.i("BC", "Sent Broadcast")
             }
