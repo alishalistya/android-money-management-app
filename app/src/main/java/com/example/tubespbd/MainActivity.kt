@@ -2,12 +2,14 @@ package com.example.tubespbd
 
 import android.Manifest
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.tubespbd.databinding.ActivityMainBinding
 import android.location.LocationManager
+import android.os.Build
 import android.widget.Button
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -21,6 +23,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import android.util.Log
+import androidx.annotation.RequiresApi
+import com.example.tubespbd.broadcast.TransactionReceiver
 import com.google.android.material.navigation.NavigationBarView
 
 import com.example.tubespbd.database.*
@@ -31,9 +35,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var locationManager: LocationManager
     private lateinit var transactionManager: TransactionManager
 
+    private val transactionReceiver = TransactionReceiver()
 
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        registerReceiver(transactionReceiver, IntentFilter("RANDOMIZE"), RECEIVER_EXPORTED)
 
         // Routing
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -75,6 +83,11 @@ class MainActivity : AppCompatActivity() {
         val serviceIntent = Intent(applicationContext, TokenExpirationService::class.java)
         applicationContext.startService(serviceIntent)
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(transactionReceiver)
     }
 
     private fun initializeAfterPermissionsGranted() {
