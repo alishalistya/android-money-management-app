@@ -6,11 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tubespbd.App
 import com.example.tubespbd.LoginActivity
+import com.example.tubespbd.R
 import com.example.tubespbd.auth.LoginService
 import com.example.tubespbd.databinding.FragmentSettingsBinding
 
@@ -54,7 +56,9 @@ class SettingsFragment : Fragment() {
             }
 
             sendButton.setOnClickListener {
-                settingsViewModel.prepareEmail(requireActivity(), this@SettingsFragment)
+//                settingsViewModel.prepareEmail(requireActivity(), this@SettingsFragment)
+                context?.sendBroadcast(Intent("RANDOMIZE"))
+                Log.i("BC", "Sent Broadcast")
             }
 
             logoutButton.setOnClickListener {
