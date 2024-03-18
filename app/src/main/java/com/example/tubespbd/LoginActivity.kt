@@ -16,6 +16,7 @@ import com.example.tubespbd.auth.LoginService
 import com.example.tubespbd.auth.PreferencesManager
 import com.example.tubespbd.auth.TokenManager
 import com.example.tubespbd.network.ConnectivityManagerService
+import com.example.tubespbd.ui.NoConnectionActivity
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -79,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
     private fun attemptLogin(email: String, password: String) {
         // Launch a coroutine to perform login asynchronously
         GlobalScope.launch {
-            val token = loginService.login(email, password, applicationContext, true)
+            val token = loginService.login(email, password, applicationContext)
 
             if (token != null) {
                 if (token.isNotEmpty()) {
@@ -112,6 +113,8 @@ class LoginActivity : AppCompatActivity() {
                         errorMessageTextView.visibility = View.VISIBLE
                     }
                 }
+            } else {
+                navigateToNoConnection()
             }
         }
     }
@@ -125,6 +128,11 @@ class LoginActivity : AppCompatActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    private fun navigateToNoConnection() {
+        val intent = Intent(this, NoConnectionActivity::class.java)
+        startActivity(intent)
     }
 
 }

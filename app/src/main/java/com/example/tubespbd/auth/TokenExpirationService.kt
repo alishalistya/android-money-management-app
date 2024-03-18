@@ -99,7 +99,7 @@ class TokenExpirationService: Service() {
                             val tokenLogin = CredentialsManager.getEmail()?.let {
                                 CredentialsManager.getPassword()?.let { it1 ->
                                     loginService.login(
-                                        it, it1, applicationContext, false)
+                                        it, it1, applicationContext)
                                 }
                             }
 

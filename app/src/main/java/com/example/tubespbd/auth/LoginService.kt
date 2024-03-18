@@ -18,13 +18,8 @@ class LoginService(private val context: Context): Service() {
 
     private lateinit var authService: AuthService
 
-    suspend fun login(email: String, password: String, context: Context, isFirst: Boolean): String? {
+    suspend fun login(email: String, password: String, context: Context): String? {
 
-        // Build the retrofit
-//        val retrofit = Retrofit.Builder()
-//            .baseUrl("https://pbd-backend-2024.vercel.app/")
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
         val connectivityManagerService = ConnectivityManagerService()
 
         // Create AuthService, using LoginRequest and returns a callback LoginResponse
@@ -33,9 +28,6 @@ class LoginService(private val context: Context): Service() {
         if (retrofit != null) {
             authService = retrofit.create(AuthService::class.java)
         } else {
-            if (isFirst) {
-                navigateToNoConnection()
-            }
             return null
         }
 
@@ -59,12 +51,6 @@ class LoginService(private val context: Context): Service() {
     fun logout() {
         // Update the expiration, assumed the server time and client time is the same
         TokenManager.getToken()
-    }
-
-    private fun navigateToNoConnection() {
-        val intent = Intent(context, NoConnectionActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        context.startActivity(intent)
     }
 
     override fun onBind(intent: Intent?): IBinder? {
