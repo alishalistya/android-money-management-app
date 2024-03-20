@@ -19,4 +19,6 @@
     <string name="no_connection">No connection</string>
     <string name="reload">Reload</string>
     <string name="camera_capture_text">Capture</string>
+    <string name="export_to_xslx">Export ke XSLX</string>
+    <string name="export_to_xls">Export ke XLS</string>
 </resources>

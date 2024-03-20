@@ -16,6 +16,7 @@ import com.example.tubespbd.utils.SaveExcelUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class SettingsViewModel(private val transactionRepository: TransactionRepository) : ViewModel() {
 
@@ -32,10 +33,11 @@ class SettingsViewModel(private val transactionRepository: TransactionRepository
     }
 
     // Save to Excel
-    fun saveToExcel(activity: Activity) {
+    fun saveToExcel(activity: Activity, fileType: String = "XLSX") {
         val transactions = allTransactions.value ?: emptyList()
+        val fileName = LocalDate.now().toString()
         val saveExcelUtil = SaveExcelUtil(activity)
-        saveExcelUtil.createExcelDocument(transactions)
+        saveExcelUtil.createExcelDocument(transactions, fileName, fileType)
     }
 
     fun prepareEmail(activity: Activity, fragment: Fragment) {

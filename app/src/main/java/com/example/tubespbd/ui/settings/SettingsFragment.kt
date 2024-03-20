@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -52,7 +54,26 @@ class SettingsFragment : Fragment() {
     private fun setupUI() {
         with(binding) {
             saveButton.setOnClickListener {
-                settingsViewModel.saveToExcel(requireActivity())
+//                settingsViewModel.saveToExcel(requireActivity()) {
+                // Initializing the popup menu and giving the reference as current context
+                val popupMenu = PopupMenu(activity, saveButton)
+
+                // Inflating popup menu from popup_menu.xml file
+                popupMenu.menuInflater.inflate(R.menu.excel_popup_menu, popupMenu.menu)
+                popupMenu.setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.export_to_xls -> {
+                            settingsViewModel.saveToExcel(requireActivity(), "xls")
+                        }
+
+                        R.id.export_to_xlsx -> {
+                            settingsViewModel.saveToExcel(requireActivity(), "xlsx")
+                        }
+                    }
+                    Toast.makeText(activity, "You Clicked ${menuItem.title}", Toast.LENGTH_SHORT).show()
+                    true}
+                // Showing the popup menu
+                popupMenu.show()
             }
 
             sendButton.setOnClickListener {
