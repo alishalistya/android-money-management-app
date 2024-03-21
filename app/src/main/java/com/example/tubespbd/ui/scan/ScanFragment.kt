@@ -6,6 +6,7 @@ import ImageSavedCallback
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,6 +18,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.tubespbd.databinding.FragmentScanBinding
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
+import com.example.tubespbd.R
 import com.example.tubespbd.billuploads.BillService
 import com.example.tubespbd.responses.ItemResponse
 import com.example.tubespbd.ui.NoConnectionActivity
@@ -57,22 +60,51 @@ class ScanFragment : Fragment() {
     // On View Created Function, for permission after view is made
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.e("ScanFragment", "onViewCreated called")
+        binding.captureButton.isClickable = true
 
         if (allPermissionsGranted()) {
             cameraHandler.startCamera()
+            Log.e("ScanFragment", "Camera started")
             binding.captureButton.setOnClickListener {
+                Log.e("ScanFragment", "Button clicked")
                 cameraHandler.takePicture(object : ImageSavedCallback {
                     override fun onImageSaved(imageFile: File) {
                         // Image has been saved, now you can access it
+                        val imageUri = Uri.fromFile(cameraHandler.getCapturedImageFile())
+                        Log.e("Scan Fragment", imageUri.toString())
+                        navigateToShowBill(imageUri)
                         attemptPost()
                     }
                 })
-
             }
         } else {
             ActivityCompat.requestPermissions(
                 requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
             )
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Check permissions and restart the camera if needed
+        if (allPermissionsGranted()) {
+            cameraHandler.startCamera()
+            Log.e("ScanFragment", "Camera started")
+            binding.captureButton.setOnClickListener {
+                Log.e("ScanFragment", "Button clicked")
+                cameraHandler.takePicture(object : ImageSavedCallback {
+                    override fun onImageSaved(imageFile: File) {
+                        // Image has been saved, now you can access it
+                        val imageUri = Uri.fromFile(cameraHandler.getCapturedImageFile())
+                        Log.e("Scan Fragment", imageUri.toString())
+                        navigateToShowBill(imageUri)
+                        attemptPost()
+                    }
+                })
+            }
+        } else {
+            // Handle case where permissions are not granted
         }
     }
 
@@ -128,13 +160,23 @@ class ScanFragment : Fragment() {
             } else {
                 navigateToNoConnection()
             }
-
-
         }
     }
 
     private fun navigateToNoConnection() {
         val intent = Intent(requireContext(), NoConnectionActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun navigateToShowBill(imageUri: Uri) {
+        Log.d("ScanFragment", "Preparing to navigate to ShowBill with URI: $imageUri")
+        val bundle = Bundle().apply {
+            putString("savedURI", imageUri.toString()) // Match the argument name in the navigation graph
+        }
+        try {
+            findNavController().navigate(R.id.action_scanFragment_to_show_bill_fragment, bundle)
+        } catch (e: Exception) {
+            Log.e("ScanFragment", "Navigation failed", e)
+        }
     }
 }

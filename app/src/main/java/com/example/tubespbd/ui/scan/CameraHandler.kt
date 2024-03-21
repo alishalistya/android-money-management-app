@@ -61,7 +61,7 @@ class CameraHandler(
         }
     }
 
-    fun takePicture(callback: ImageSavedCallback) {
+    fun takePicture(callback: ImageSavedCallback){
         capturedImageFile = getOutputFile()
         val outputFileOptions = ImageCapture.OutputFileOptions.Builder(capturedImageFile!!).build()
         imageCapture.takePicture(

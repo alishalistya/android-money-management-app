@@ -46,9 +46,30 @@
             android:name="transactionId"
             app:argType="integer" />
     </action>
+
+    <fragment
+        android:id="@+id/showBillFragment"
+        android:name="com.example.tubespbd.ui.scan.BillFragment"
+        android:label="Show Bill Fragment"
+        tools:layout="@layout/fragment_show_bill">
+    </fragment>
+
+    <action
+        android:id="@+id/action_scanFragment_to_show_bill_fragment"
+        app:destination="@id/showBillFragment">
+        <argument
+            android:name="savedURI"
+            app:argType="string" />
+    </action>
+
+
     <fragment
         android:id="@+id/editTransactionFragment"
         android:name="com.example.tubespbd.ui.home.EditTransactionFragment"
         android:label="EditTransactionFragment" />
+
+    <action
+        android:id="@+id/action_showBillFragment_to_homeFragment"
+        app:destination="@id/navigation_home" />
 
 </navigation>
