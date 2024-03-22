@@ -34,7 +34,6 @@ import java.util.Locale
 
 class BillFragment : Fragment(){
     private var _binding: FragmentShowBillBinding? = null
-    private lateinit var cameraHandler: CameraHandler
     private val binding get() = _binding!!
     private val billViewModel: BillViewModel by viewModels{
         BillViewModelFactory((requireActivity().application as App).transactionRepository)
@@ -76,7 +75,6 @@ class BillFragment : Fragment(){
     }
 
     private fun displayImage(imageUri: Uri) {
-        // Ensure you have an ImageView in your layout to display the image.
         Log.e("e", "URI: $imageUri")
         binding.imageView.setImageURI(imageUri)
     }

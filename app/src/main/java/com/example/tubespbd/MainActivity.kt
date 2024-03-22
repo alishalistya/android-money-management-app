@@ -4,31 +4,23 @@ import android.Manifest
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import com.example.tubespbd.databinding.ActivityMainBinding
 import android.location.LocationManager
 import android.os.Build
-import android.widget.Button
+import android.os.Bundle
+import android.util.Log
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.tubespbd.auth.TokenExpirationService
 import com.example.tubespbd.auth.TokenManager
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import androidx.room.Room
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import android.util.Log
-import android.view.View
-import androidx.annotation.RequiresApi
 import com.example.tubespbd.broadcast.TransactionReceiver
-import com.google.android.material.navigation.NavigationBarView
-
 import com.example.tubespbd.database.*
+import com.example.tubespbd.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -59,19 +51,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home, R.id.navigation_scan, R.id.navigation_graph, R.id.navigation_settings
             )
         )
-
-        navView.setOnItemSelectedListener { item ->
-            Log.d("MainActivity", "Item selected: ${item.itemId}")
-            when (item.itemId) {
-                R.id.navigation_home -> {
-                    Log.d("MainActivity", "Navigating to HistoryActivity")
-                    val intent = Intent(this@MainActivity, HistoryActivity::class.java)
-                    startActivity(intent)
-                    true
-                }
-                else -> false
-            }
-        }
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
