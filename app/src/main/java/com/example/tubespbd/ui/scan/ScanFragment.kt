@@ -74,7 +74,6 @@ class ScanFragment : Fragment() {
                         val imageUri = Uri.fromFile(cameraHandler.getCapturedImageFile())
                         Log.e("Scan Fragment", imageUri.toString())
                         navigateToShowBill(imageUri)
-                        attemptPost()
                     }
                 })
             }
@@ -99,7 +98,6 @@ class ScanFragment : Fragment() {
                         val imageUri = Uri.fromFile(cameraHandler.getCapturedImageFile())
                         Log.e("Scan Fragment", imageUri.toString())
                         navigateToShowBill(imageUri)
-                        attemptPost()
                     }
                 })
             }
@@ -140,27 +138,6 @@ class ScanFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    @OptIn(DelicateCoroutinesApi::class)
-    fun attemptPost() {
-        GlobalScope.launch {
-            val file = cameraHandler.getCapturedImageFile()
-
-            val billService = BillService()
-            val response = context?.let {
-                if (file != null) {
-                    itemResponse = billService.postBill(it, file)!!
-                }
-            }
-
-            if (itemResponse != null) {
-                Log.d("Response", "Post bill success! $itemResponse")
-                // Saved in itemResponse attribute
-            } else {
-                navigateToNoConnection()
-            }
-        }
     }
 
     private fun navigateToNoConnection() {
