@@ -54,46 +54,44 @@ class SaveExcelUtil(private val context: Context) {
         fileType: String
     ) {
         withContext(Dispatchers.IO) {
-            withContext(Dispatchers.IO) {
-                val workbook = if (fileType == "xls") {
-                    HSSFWorkbook()
-                } else {
-                    XSSFWorkbook()
-                }
+            val workbook = if (fileType == "xls") {
+                HSSFWorkbook()
+            } else {
+                XSSFWorkbook()
+            }
 
-                // Ensure workbook is not null before proceeding
-                workbook.let { wb ->
-                    try {
-                        val sheet = wb.createSheet("Transactions")
+            // Ensure workbook is not null before proceeding
+            workbook.let { wb ->
+                try {
+                    val sheet = wb.createSheet("Transactions")
 
-                        val headerRow = sheet.createRow(0)
-                        Transaction::class.memberProperties.forEachIndexed { index, kProperty ->
-                            headerRow.createCell(index).setCellValue(kProperty.name)
-                        }
+                    val headerRow = sheet.createRow(0)
+                    Transaction::class.memberProperties.forEachIndexed { index, kProperty ->
+                        headerRow.createCell(index).setCellValue(kProperty.name)
+                    }
 
-                        transactions.forEachIndexed { index, transaction ->
-                            val row = sheet.createRow(index + 1)
-                            Transaction::class.memberProperties.forEachIndexed { colIndex, kProperty ->
-                                val value = kProperty.get(transaction)
-                                when (value) {
-                                    is String? -> row.createCell(colIndex).setCellValue(value)
-                                    is Int -> row.createCell(colIndex)
-                                        .setCellValue(value.toDouble())
+                    transactions.forEachIndexed { index, transaction ->
+                        val row = sheet.createRow(index + 1)
+                        Transaction::class.memberProperties.forEachIndexed { colIndex, kProperty ->
+                            val value = kProperty.get(transaction)
+                            when (value) {
+                                is String? -> row.createCell(colIndex).setCellValue(value)
+                                is Int -> row.createCell(colIndex)
+                                    .setCellValue(value.toDouble())
 
-                                    is Float? -> row.createCell(colIndex)
-                                        .setCellValue(value?.toDouble() ?: 0.0)
+                                is Float? -> row.createCell(colIndex)
+                                    .setCellValue(value?.toDouble() ?: 0.0)
 
-                                    else -> row.createCell(colIndex).setCellValue(value?.toString())
-                                }
+                                else -> row.createCell(colIndex).setCellValue(value?.toString())
                             }
                         }
-                        wb.write(outputStream)
-                        wb.close()
-                        Log.e("ExcelGeneration", "Saved Excel tp: ${fileType}")
-
-                    } catch (e: Exception) {
-                        Log.e("ExcelGeneration", "Fail to create file: ${e.message}")
                     }
+                    wb.write(outputStream)
+                    wb.close()
+                    Log.e("ExcelGeneration", "Saved Excel tp: ${fileType}")
+
+                } catch (e: Exception) {
+                    Log.e("ExcelGeneration", "Fail to create file: ${e.message}")
                 }
             }
         }

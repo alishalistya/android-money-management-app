@@ -61,7 +61,7 @@ class CameraHandler(
         }
     }
 
-    fun takePicture(callback: ImageSavedCallback){
+    fun takePicture(callback: (Uri) -> Unit){
         capturedImageFile = getOutputFile()
         val outputFileOptions = ImageCapture.OutputFileOptions.Builder(capturedImageFile!!).build()
         imageCapture.takePicture(
@@ -71,7 +71,7 @@ class CameraHandler(
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     val savedUri = outputFileResults.savedUri ?: Uri.fromFile(capturedImageFile)
                     Log.d("CameraHandler", "Photo capture succeeded: $savedUri")
-                    callback.onImageSaved(capturedImageFile!!)
+                    callback(savedUri)
                 }
 
                 override fun onError(exception: ImageCaptureException) {
