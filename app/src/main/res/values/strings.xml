@@ -23,4 +23,5 @@
     <string name="export_to_xls">Export ke XLS</string>
     <string name="image_description">Hasil bill</string>
     <string name="pilih_foto">Pilih Foto</string>
+    <string name="scan_text">Arahkan kameramu ke struk dan biarkan kami melihat dan memindai strukmu.</string>
 </resources>

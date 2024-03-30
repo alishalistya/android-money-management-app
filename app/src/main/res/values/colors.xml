@@ -4,7 +4,9 @@
     <color name="purple_800">#FF6200EE</color>
     <color name="deep_green">#3F6D5C</color>
     <color name="sage_green">#D8E9E3</color>
+    <color name="dark_grey">#959595</color>
     <color name="default_grey">#DDDDDD</color>
+    <color name="light_grey">#FAFAFE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
