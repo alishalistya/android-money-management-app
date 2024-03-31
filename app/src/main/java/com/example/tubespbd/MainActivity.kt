@@ -4,13 +4,19 @@ import android.Manifest
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -21,6 +27,7 @@ import com.example.tubespbd.broadcast.TransactionReceiver
 import com.example.tubespbd.database.*
 import com.example.tubespbd.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +36,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var transactionManager: TransactionManager
 
     private val transactionReceiver = TransactionReceiver()
+
+    private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var sideNavigationView: NavigationView
+    private lateinit var navController: NavController
 
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -42,9 +53,16 @@ class MainActivity : AppCompatActivity() {
 
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
 
-        val navView: BottomNavigationView = binding.navView
+//        val navView: BottomNavigationView = binding.navView
+        bottomNavigationView = findViewById(R.id.nav_view)
+        sideNavigationView = findViewById(R.id.side_nav_view)
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        navController = findNavController(R.id.nav_host_fragment_activity_main)
+//        bottomNavigationView.setupWithNavController(navController)
+
+        sideNavigationView.visibility = View.GONE
+
+//        val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -53,22 +71,39 @@ class MainActivity : AppCompatActivity() {
         )
 
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        bottomNavigationView.setupWithNavController(navController)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        sideNavigationView.setupWithNavController(navController)
         checkAndRequestLocationPermissions()
 
         // Start expiration timer
         val serviceIntent = Intent(applicationContext, TokenExpirationService::class.java)
         applicationContext.startService(serviceIntent)
 
+        adjustNavigationForOrientation(resources.configuration.orientation)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(transactionReceiver)
     }
+
+    private fun adjustNavigationForOrientation(orientation: Int) {
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            bottomNavigationView.visibility = View.GONE
+            sideNavigationView.visibility = View.VISIBLE
+        } else {
+            bottomNavigationView.visibility = View.VISIBLE
+            sideNavigationView.visibility = View.GONE
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        adjustNavigationForOrientation(newConfig.orientation)
+    }
+
 
     private fun initializeAfterPermissionsGranted() {
         transactionManager = TransactionManager(this, locationManager)
