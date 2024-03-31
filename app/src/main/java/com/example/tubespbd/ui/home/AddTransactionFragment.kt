@@ -112,22 +112,19 @@ class AddTransactionFragment : Fragment() {
         val category = binding.categoryEditText.text.toString()
         val amountStr = binding.amountEditText.text.toString()
         val amount = if (amountStr.isNotEmpty()) amountStr.toFloat() else 0f
+        val locationString = binding.locationEditText.text.toString()
 
-        var locationString = ""
-        CoroutineScope(Dispatchers.IO).launch {
-            locationString = getLocationString()
-        }
-        val currentDate = Date()
-
-        val newTransaction = Transaction(
-            title = title,
-            category = category,
-            amount = amount,
-            location = locationString,
-            tanggal = currentDate.toString()
-        )
 
         CoroutineScope(Dispatchers.IO).launch {
+            val currentDate = Date()
+
+            val newTransaction = Transaction(
+                title = title,
+                category = category,
+                amount = amount,
+                location = locationString,
+                tanggal = currentDate.toString()
+            )
             transactionRepository.insertTransaction(newTransaction)
             getAllTransactions()
         }
