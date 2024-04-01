@@ -24,4 +24,6 @@
     <string name="image_description">Hasil bill</string>
     <string name="pilih_foto">Pilih Foto</string>
     <string name="scan_text">Arahkan kameramu ke struk dan biarkan kami melihat dan memindai strukmu.</string>
+    <string name="password">password</string>
+    <string name="email">email</string>
 </resources>
