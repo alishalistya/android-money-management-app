@@ -29,7 +29,6 @@ class CameraHandler<T>(
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
     private lateinit var imageCapture: ImageCapture
     private var capturedImageFile: File? = null
-    val lock = Object()
 
     fun startCamera() {
         // Initialize Preview
@@ -47,7 +46,6 @@ class CameraHandler<T>(
     }
 
     private fun bindPreview(cameraProvider: ProcessCameraProvider) {
-        // Access the previewView from binding using reflection or require it to be provided by another means
         val previewView = when (binding) {
             is FragmentTwibbonBinding -> binding.previewView
             is FragmentScanBinding -> binding.previewView

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.tubespbd.databinding.FragmentShowTwibbonBinding
 
 class TwibbonResultFragment : Fragment() {
@@ -35,10 +36,20 @@ class TwibbonResultFragment : Fragment() {
         imageConvertedUri?.let {
             displayImage(it)
         }
+
+        with(binding) {
+            recaptureButton.setOnClickListener {
+                navigateToTwibbonFragment()
+            }
+        }
     }
 
     private fun displayImage(imageUri: Uri) {
         Log.e("e", "URI: $imageUri")
         binding.imageViewPicture.setImageURI(imageUri)
+    }
+
+    private fun navigateToTwibbonFragment(){
+        findNavController().navigateUp()
     }
 }
