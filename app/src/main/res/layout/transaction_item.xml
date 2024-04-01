@@ -21,7 +21,8 @@
             android:text="Title"
             android:textColor="#000000"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
 
         <TextView
             android:id="@+id/categoryTextView"
@@ -29,8 +30,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_border"
             android:backgroundTint="#D8E9E3"
+            android:paddingStart="16dp"
             android:text="Category"
-            android:textColor="#70A18F" />
+            android:textColor="#2D5144" />
 
 
     </LinearLayout>
