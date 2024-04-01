@@ -12,7 +12,7 @@ import com.example.tubespbd.R
 import com.example.tubespbd.database.Transaction
 import com.example.tubespbd.database.TransactionAdapter
 import com.example.tubespbd.databinding.FragmentAddTransactionBinding
-import com.example.tubespbd.databinding.FragmentHomeBinding
+
 import java.util.Date
 import android.Manifest
 import android.content.Context

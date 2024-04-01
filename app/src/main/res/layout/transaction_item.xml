@@ -12,7 +12,9 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginBottom="10px"
+        >
 
         <TextView
             android:id="@+id/titleTextView"
@@ -26,7 +28,7 @@
 
         <TextView
             android:id="@+id/categoryTextView"
-            android:layout_width="93dp"
+            android:layout_width="128dp"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_border"
             android:backgroundTint="#D8E9E3"
