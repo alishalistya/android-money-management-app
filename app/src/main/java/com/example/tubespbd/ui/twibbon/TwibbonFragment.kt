@@ -20,6 +20,7 @@ import com.example.tubespbd.databinding.FragmentScanBinding
 import com.example.tubespbd.databinding.FragmentTwibbonBinding
 import com.example.tubespbd.responses.ItemResponse
 import com.example.tubespbd.ui.NoConnectionActivity
+import com.example.tubespbd.ui.scan.ScanFragment
 import java.io.File
 import java.io.FileOutputStream
 
@@ -38,11 +39,16 @@ class TwibbonFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (!allPermissionsGranted()) ActivityCompat.requestPermissions(requireActivity(),
+            TwibbonFragment.REQUIRED_PERMISSIONS,
+            TwibbonFragment.REQUEST_CODE_PERMISSIONS
+        )
         binding.captureButton.setOnClickListener {
             Log.e("ScanFragment", "Button clicked")
             cameraHandler.takePicture { imageUri ->
                 // Here, imageUri is the Uri of the captured image
                 Log.e("Scan Fragment", imageUri.toString())
+                navigateToShowTwibbon(imageUri)
             }
         }
     }
@@ -74,16 +80,15 @@ class TwibbonFragment : Fragment() {
             }
         }
     }
-
-//    private fun navigateToShowBill(imageUri: Uri) {
-//        try {
-//            findNavController().navigate(R.id.action_scanFragment_to_show_bill_fragment, Bundle().apply {
-//                putString("savedURI", imageUri.toString())
-//            })
-//        } catch (e: Exception) {
-//            Log.e("ScanFragment", "Navigation failed", e)
-//        }
-//    }
+    private fun navigateToShowTwibbon(imageUri: Uri) {
+        try {
+            findNavController().navigate(R.id.action_twibbonFragment_to_showTwibbonFragment, Bundle().apply {
+                putString("savedURI", imageUri.toString())
+            })
+        } catch (e: Exception) {
+            Log.e("ScanFragment", "Navigation failed", e)
+        }
+    }
 
     private fun navigateToNoConnection() {
         val intent = Intent(requireContext(), NoConnectionActivity::class.java)

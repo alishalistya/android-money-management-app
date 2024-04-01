@@ -69,6 +69,22 @@
     </action>
 
     <fragment
+        android:id="@+id/showTwibbonFragment"
+        android:name="com.example.tubespbd.ui.twibbon.TwibbonResultFragment"
+        android:label="Show Twibbon Fragment"
+        tools:layout="@layout/fragment_show_twibbon">
+    </fragment>
+
+    <action
+        android:id="@+id/action_twibbonFragment_to_showTwibbonFragment"
+        app:destination="@id/showTwibbonFragment">
+        <argument
+            android:name="savedURI"
+            app:argType="string" />
+    </action>
+
+
+    <fragment
         android:id="@+id/editTransactionFragment"
         android:name="com.example.tubespbd.ui.home.EditTransactionFragment"
         android:label="EditTransactionFragment" />
