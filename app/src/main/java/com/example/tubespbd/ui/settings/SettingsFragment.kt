@@ -84,6 +84,7 @@ class SettingsFragment : Fragment() {
             sendBcButton.setOnClickListener {
                 context?.sendBroadcast(Intent("RANDOMIZE"))
                 Log.i("BC", "Sent Broadcast")
+                Toast.makeText(activity, "Transaction Randomized!", Toast.LENGTH_SHORT).show()
             }
 
             logoutButton.setOnClickListener {
