@@ -29,6 +29,7 @@ class CameraHandler<T>(
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
     private lateinit var imageCapture: ImageCapture
     private var capturedImageFile: File? = null
+    private var lensFacing = CameraSelector.DEFAULT_BACK_CAMERA
 
     fun startCamera() {
         // Initialize Preview
@@ -45,7 +46,7 @@ class CameraHandler<T>(
 
     }
 
-    private fun bindPreview(cameraProvider: ProcessCameraProvider) {
+    private fun bindPreview(cameraProvider: ProcessCameraProvider, cameraSelector: CameraSelector = lensFacing) {
         val previewView = when (binding) {
             is FragmentTwibbonBinding -> binding.previewView
             is FragmentScanBinding -> binding.previewView
@@ -53,8 +54,6 @@ class CameraHandler<T>(
         }
         val preview : Preview = Preview.Builder().build()
         preview.setSurfaceProvider(previewView.surfaceProvider)
-
-        val cameraSelector =  CameraSelector.DEFAULT_BACK_CAMERA
 
         try {
             cameraProvider.unbindAll()
@@ -113,7 +112,11 @@ class CameraHandler<T>(
     }
 
     fun flipCamera(){
-
-
+        lensFacing = if (lensFacing == CameraSelector.DEFAULT_BACK_CAMERA) {
+            CameraSelector.DEFAULT_FRONT_CAMERA
+        } else {
+            CameraSelector.DEFAULT_BACK_CAMERA
+        }
+       startCamera()
     }
 }

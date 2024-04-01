@@ -90,6 +90,7 @@ class ScanFragment : Fragment() {
             }
         }
         binding.photoPickerButton.setOnClickListener { pickMedia.launch("image/*") }
+        binding.flipCamera.setOnClickListener{cameraHandler.flipCamera()}
         if (!allPermissionsGranted()) ActivityCompat.requestPermissions(requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
     }
 
