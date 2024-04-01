@@ -24,6 +24,12 @@
         tools:layout="@layout/fragment_scan"/>
 
     <fragment
+        android:id="@+id/navigation_twibbon"
+        android:name="com.example.tubespbd.ui.twibbon.TwibbonFragment"
+        android:label="Twibbon"
+        tools:layout="@layout/fragment_twibbon"/>
+
+    <fragment
         android:id="@+id/navigation_settings"
         android:name="com.example.tubespbd.ui.settings.SettingsFragment"
         android:label="@string/title_settings"

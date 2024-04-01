@@ -8,8 +8,11 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
+import androidx.viewbinding.ViewBinding
 import com.example.tubespbd.databinding.FragmentScanBinding
+import com.example.tubespbd.databinding.FragmentTwibbonBinding
 import com.google.common.util.concurrent.ListenableFuture
 import okhttp3.internal.notify
 import java.io.File
@@ -17,10 +20,11 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-class CameraHandler(
+class CameraHandler<T>(
     private val context: Context,
     private val lifecycleOwner: LifecycleOwner,
-    private val binding: FragmentScanBinding) {
+    private val binding: T
+) where T : ViewBinding {
 
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
     private lateinit var imageCapture: ImageCapture
@@ -43,7 +47,12 @@ class CameraHandler(
     }
 
     private fun bindPreview(cameraProvider: ProcessCameraProvider) {
-        val previewView = binding.previewView
+        // Access the previewView from binding using reflection or require it to be provided by another means
+        val previewView = when (binding) {
+            is FragmentTwibbonBinding -> binding.previewView
+            is FragmentScanBinding -> binding.previewView
+            else -> throw IllegalArgumentException("Unsupported binding type")
+        }
         val preview : Preview = Preview.Builder().build()
         preview.setSurfaceProvider(previewView.surfaceProvider)
 
@@ -104,13 +113,4 @@ class CameraHandler(
             capturedImageFile
         }
     }
-
-//    private fun showPicture(): File {
-//
-//    }
-
-}
-
-interface ImageSavedCallback {
-    fun onImageSaved(imageFile: File)
 }

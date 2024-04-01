@@ -34,4 +34,8 @@
     <string name="hapus">Hapus</string>
     <string name="back">BACK</string>
     <string name="tambah_transaksi">TAMBAH TRANSAKSI</string>
+=======
+    <string name="twibbon_text">Dua tiga makan abon, ayo kita pake twibbon!</string>
+    <string name="twibbon">Twibbon</string>
+>>>>>>> Stashed changes
 </resources>

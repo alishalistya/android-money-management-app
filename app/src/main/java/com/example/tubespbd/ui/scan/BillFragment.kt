@@ -71,6 +71,7 @@ class BillFragment : Fragment(){
             recaptureButton.setOnClickListener {
                 navigateToScanFragment()
             }
+
         }
     }
 
