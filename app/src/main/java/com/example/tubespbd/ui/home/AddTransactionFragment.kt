@@ -111,9 +111,13 @@ class AddTransactionFragment : Fragment() {
         val title = binding.titleEditText.text.toString()
         val category = binding.categoryEditText.text.toString()
         val amountStr = binding.amountEditText.text.toString()
-        val amount = if (amountStr.isNotEmpty()) amountStr.toFloat() else 0f
         val locationString = binding.locationEditText.text.toString()
 
+        val amount: Float = if (isValidAmount(amountStr)) {
+            amountStr.toFloat()
+        } else {
+            0f
+        }
 
         CoroutineScope(Dispatchers.IO).launch {
             val currentDate = Date()
@@ -132,8 +136,13 @@ class AddTransactionFragment : Fragment() {
         binding.titleEditText.text.clear()
         binding.categoryEditText.text.clear()
         binding.amountEditText.text.clear()
-
     }
+
+    private fun isValidAmount(input: String): Boolean {
+        val regex = Regex("[0-9]+")
+        return regex.matches(input)
+    }
+
 
     private suspend fun getAllTransactions() {
         transactions.clear()
