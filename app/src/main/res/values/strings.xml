@@ -26,4 +26,12 @@
     <string name="scan_text">Arahkan kameramu ke struk dan biarkan kami melihat dan memindai strukmu.</string>
     <string name="password">password</string>
     <string name="email">email</string>
+    <string name="judul">Judul</string>
+    <string name="kategori">Kategori</string>
+    <string name="rp_0">Rp 0</string>
+    <string name="lokasi">Lokasi</string>
+    <string name="simpan">Simpan</string>
+    <string name="hapus">Hapus</string>
+    <string name="back">BACK</string>
+    <string name="tambah_transaksi">TAMBAH TRANSAKSI</string>
 </resources>
