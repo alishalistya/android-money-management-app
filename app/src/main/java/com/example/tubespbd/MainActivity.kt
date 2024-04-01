@@ -64,16 +64,16 @@ class MainActivity : AppCompatActivity() {
 
 //        val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_scan, R.id.navigation_graph, R.id.navigation_settings
-            )
-        )
+//        val appBarConfiguration = AppBarConfiguration(
+//            setOf(
+//                R.id.navigation_home, R.id.navigation_scan, R.id.navigation_graph, R.id.navigation_settings
+//            )
+//        )
 
-        setupActionBarWithNavController(navController, appBarConfiguration)
+//        setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNavigationView.setupWithNavController(navController)
-
-        setupActionBarWithNavController(navController, appBarConfiguration)
+//
+//        setupActionBarWithNavController(navController, appBarConfiguration)
         sideNavigationView.setupWithNavController(navController)
         checkAndRequestLocationPermissions()
 

@@ -24,6 +24,11 @@
     <string name="image_description">Hasil bill</string>
     <string name="pilih_foto">Pilih Foto</string>
     <string name="scan_text">Arahkan kameramu ke struk dan biarkan kami melihat dan memindai strukmu.</string>
+<<<<<<< Updated upstream
     <string name="password">password</string>
     <string name="email">email</string>
+=======
+    <string name="twibbon_text">Dua tiga makan abon, ayo kita pake twibbon!</string>
+    <string name="twibbon">Twibbon</string>
+>>>>>>> Stashed changes
 </resources>

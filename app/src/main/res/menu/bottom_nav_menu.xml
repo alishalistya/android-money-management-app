@@ -18,6 +18,11 @@
         android:title="@string/title_scan" />
 
     <item
+        android:id="@+id/navigation_twibbon"
+        android:icon="@drawable/icon_scan"
+        android:title="@string/twibbon" />
+
+    <item
         android:id="@+id/navigation_settings"
         android:icon="@drawable/icon_settings"
         android:title="@string/title_settings" />
