@@ -79,10 +79,9 @@
         android:id="@+id/action_twibbonFragment_to_showTwibbonFragment"
         app:destination="@id/showTwibbonFragment">
         <argument
-            android:name="savedURI"
+            android:name="savedURIPhoto"
             app:argType="string" />
     </action>
-
 
     <fragment
         android:id="@+id/editTransactionFragment"

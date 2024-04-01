@@ -40,13 +40,11 @@ class TwibbonFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (!allPermissionsGranted()) ActivityCompat.requestPermissions(requireActivity(),
-            TwibbonFragment.REQUIRED_PERMISSIONS,
-            TwibbonFragment.REQUEST_CODE_PERMISSIONS
+            REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
         )
         binding.captureButton.setOnClickListener {
             Log.e("ScanFragment", "Button clicked")
             cameraHandler.takePicture { imageUri ->
-                // Here, imageUri is the Uri of the captured image
                 Log.e("Scan Fragment", imageUri.toString())
                 navigateToShowTwibbon(imageUri)
             }
@@ -71,20 +69,13 @@ class TwibbonFragment : Fragment() {
         ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
     }
 
-    private fun handleImageUri(imageUri: Uri) {
-        val tempFile = File(requireContext().cacheDir, "temp_image.jpg").apply {
-            requireContext().contentResolver.openInputStream(imageUri)?.use { inputStream ->
-                FileOutputStream(this).use { fileOutputStream ->
-                    inputStream.copyTo(fileOutputStream)
-                }
-            }
-        }
-    }
     private fun navigateToShowTwibbon(imageUri: Uri) {
         try {
-            findNavController().navigate(R.id.action_twibbonFragment_to_showTwibbonFragment, Bundle().apply {
-                putString("savedURI", imageUri.toString())
-            })
+            findNavController().navigate(
+                R.id.action_twibbonFragment_to_showTwibbonFragment,
+                Bundle().apply {
+                    putString("savedURIPhoto", imageUri.toString())
+                })
         } catch (e: Exception) {
             Log.e("ScanFragment", "Navigation failed", e)
         }

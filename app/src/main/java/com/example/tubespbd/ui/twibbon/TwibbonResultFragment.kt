@@ -21,14 +21,15 @@ class TwibbonResultFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentShowTwibbonBinding.inflate(inflater, container, false)
-        imageUriString = arguments?.getString("savedURI").toString()
+        imageUriString = arguments?.getString("savedURIPhoto").toString()
         val root: View = binding.root
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        imageUriString = arguments?.getString("savedURI").toString()
+        imageUriString = arguments?.getString("savedURIPhoto").toString()
+        Log.e("error", imageUriString)
         val imageConvertedUri = imageUriString?.let { Uri.parse(it) }
         Log.e("bill", "Image URI: $imageConvertedUri")
         imageConvertedUri?.let {
@@ -38,6 +39,6 @@ class TwibbonResultFragment : Fragment() {
 
     private fun displayImage(imageUri: Uri) {
         Log.e("e", "URI: $imageUri")
-        binding.imageView.setImageURI(imageUri)
+        binding.imageViewPicture.setImageURI(imageUri)
     }
 }

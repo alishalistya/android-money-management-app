@@ -5,13 +5,27 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:id="@+id/imageViewPicture"
+        android:layout_width="361dp"
+        android:layout_height="408dp"
         android:contentDescription="@string/image_description"
+        android:src="@drawable/twibbon"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.238" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:src="@drawable/twibbon"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewPicture"
+        app:layout_constraintStart_toStartOf="@+id/imageViewPicture"
+        app:layout_constraintTop_toTopOf="@+id/imageViewPicture" />
 
     <Button
         android:id="@+id/recapture_button"
@@ -20,6 +34,9 @@
         android:text="Ulangi"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageViewPicture"
+        app:layout_constraintVertical_bias="0.716" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
