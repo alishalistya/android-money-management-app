@@ -44,34 +44,33 @@
 
     <EditText
         android:id="@+id/titleEditText"
-        android:layout_width="363dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="144dp"
+        android:layout_width="358dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="152dp"
         android:background="@drawable/rounded_border"
         android:backgroundTint="#E8E7E7"
         android:hint="Judul"
+        android:paddingStart="16dp"
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="@id/amountEditText"
-        app:layout_constraintHorizontal_bias="0.423"
+        app:layout_constraintHorizontal_bias="0.525"
         app:layout_constraintStart_toStartOf="@id/amountEditText"
-        app:layout_constraintTop_toTopOf="@id/amountEditText"
-        android:paddingStart="16dp"
-        />
+        app:layout_constraintTop_toTopOf="@id/amountEditText" />
 
     <AutoCompleteTextView
         android:id="@+id/categoryEditText"
-        android:layout_width="363dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="28dp"
+        android:layout_width="358dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/rounded_border"
         android:backgroundTint="#E8E7E7"
         android:hint="Kategori"
+        android:paddingStart="16dp"
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.547"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleEditText"
-        android:paddingStart="16dp"
-        />
+        app:layout_constraintTop_toBottomOf="@id/titleEditText" />
 
     <EditText
         android:id="@+id/amountEditText"
@@ -93,27 +92,28 @@
 
     <EditText
         android:id="@+id/locationEditText"
-        android:layout_width="362dp"
-        android:layout_height="141dp"
-        android:layout_marginTop="28dp"
+        android:layout_width="358dp"
+        android:layout_height="142dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/rounded_border"
         android:backgroundTint="#E8E7E7"
         android:hint="Lokasi"
         android:paddingStart="16dp"
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.547"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/categoryEditText" />
 
     <Button
         android:id="@+id/addTransactionButton"
-        android:layout_width="358dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="328dp"
+        android:layout_width="355dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="332dp"
         android:backgroundTint="#3F6D5C"
         android:text="Simpan"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/amountEditText" />
 
@@ -121,7 +121,6 @@
         android:id="@+id/deleteTransactionButton"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:backgroundTint="@color/red"
         android:text="Hapus"
         android:visibility="gone"
