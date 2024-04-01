@@ -28,7 +28,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/header"
             app:layout_constraintTop_toTopOf="@id/header"
-            android:paddingStart="16dp"
+            android:paddingStart="30dp"
             />
 
         <TextView
@@ -38,7 +38,9 @@
             android:layout_width="match_parent"
             android:text="TAMBAH TRANSAKSI"
             android:textColor="#FFFFFF"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:paddingStart="20dp"
+            />
 
     </LinearLayout>
 
@@ -92,8 +94,8 @@
 
     <EditText
         android:id="@+id/locationEditText"
-        android:layout_width="358dp"
-        android:layout_height="142dp"
+        android:layout_width="351dp"
+        android:layout_height="108dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/rounded_border"
         android:backgroundTint="#E8E7E7"
@@ -109,11 +111,11 @@
         android:id="@+id/addTransactionButton"
         android:layout_width="355dp"
         android:layout_height="53dp"
-        android:layout_marginTop="332dp"
+        android:layout_marginTop="292dp"
         android:backgroundTint="#3F6D5C"
         android:text="Simpan"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/amountEditText" />
 
