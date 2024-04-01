@@ -47,12 +47,13 @@
         android:layout_marginTop="144dp"
         android:background="@drawable/rounded_border"
         android:backgroundTint="#E8E7E7"
-        android:hint="  Judul"
-        android:textColor="#CECECE"
+        android:hint="Judul"
+        android:textColor="#0000000"
         app:layout_constraintEnd_toEndOf="@id/amountEditText"
         app:layout_constraintHorizontal_bias="0.423"
         app:layout_constraintStart_toStartOf="@id/amountEditText"
-        app:layout_constraintTop_toTopOf="@id/amountEditText" />
+        app:layout_constraintTop_toTopOf="@id/amountEditText"
+        android:paddingStart="16dp"/>
 
     <AutoCompleteTextView
         android:id="@+id/categoryEditText"
@@ -61,11 +62,13 @@
         android:layout_marginTop="28dp"
         android:background="@drawable/rounded_border"
         android:backgroundTint="#E8E7E7"
-        android:hint="  Kategori"
-        android:textColor="#CECECE"
+        android:hint="Kategori"
+        android:textColor="#00000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleEditText" />
+        app:layout_constraintTop_toBottomOf="@id/titleEditText"
+        android:paddingStart="16dp"
+        />
 
     <EditText
         android:id="@+id/amountEditText"
@@ -73,14 +76,17 @@
         android:layout_height="130dp"
         android:background="#88B9A7"
         android:backgroundTint="#88B9A7"
-        android:hint="   Rp 0"
-        android:textColor="#3F6D5C"
+        android:hint="Rp 0"
+        android:textAlignment="center"
+        android:textColor="#00000000"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header" />
+        app:layout_constraintTop_toBottomOf="@id/header"
+        android:paddingStart="16dp"
+        />
 
     <EditText
         android:id="@+id/locationEditText"
@@ -89,8 +95,9 @@
         android:layout_marginTop="28dp"
         android:background="@drawable/rounded_border"
         android:backgroundTint="#E8E7E7"
-        android:hint="  Lokasi"
-        android:textColor="#CECECE"
+        android:hint="Lokasi"
+        android:paddingStart="16dp"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/categoryEditText" />
