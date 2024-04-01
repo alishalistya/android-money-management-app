@@ -27,7 +27,7 @@
             android:fontFamily="@font/montserrat_semibold"
             android:text="@string/login_header_text"
             android:textColor="@color/black"
-            android:textSize="43sp" />
+            android:textSize="35sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
