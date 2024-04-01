@@ -1,4 +1,4 @@
-package com.example.tubespbd.ui.scan
+package com.example.tubespbd.ui.twibbon
 
 import CameraHandler
 import android.Manifest
@@ -17,29 +17,21 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.tubespbd.R
 import com.example.tubespbd.databinding.FragmentScanBinding
+import com.example.tubespbd.databinding.FragmentTwibbonBinding
 import com.example.tubespbd.responses.ItemResponse
 import com.example.tubespbd.ui.NoConnectionActivity
+import com.example.tubespbd.ui.scan.ScanFragment
 import java.io.File
 import java.io.FileOutputStream
 
-class ScanFragment : Fragment() {
+class TwibbonFragment : Fragment() {
 
-    private var _binding: FragmentScanBinding? = null
+    private var _binding: FragmentTwibbonBinding? = null
     private val binding get() = _binding!!
-    private lateinit var cameraHandler: CameraHandler<FragmentScanBinding>
-    private var itemResponse: ItemResponse? = null
-
-    private val pickMedia = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        if (uri != null) {
-            Log.d("PhotoPicker", "Selected URI: $uri")
-            handleImageUri(uri)
-        } else {
-            Log.d("PhotoPicker", "No media selected")
-        }
-    }
+    private lateinit var cameraHandler: CameraHandler<FragmentTwibbonBinding>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentScanBinding.inflate(inflater, container, false).also {
+        _binding = FragmentTwibbonBinding.inflate(inflater, container, false).also {
             cameraHandler = CameraHandler(requireContext(), viewLifecycleOwner, it)
         }
         return binding.root
@@ -47,7 +39,18 @@ class ScanFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView()
+        if (!allPermissionsGranted()) ActivityCompat.requestPermissions(requireActivity(),
+            TwibbonFragment.REQUIRED_PERMISSIONS,
+            TwibbonFragment.REQUEST_CODE_PERMISSIONS
+        )
+        binding.captureButton.setOnClickListener {
+            Log.e("ScanFragment", "Button clicked")
+            cameraHandler.takePicture { imageUri ->
+                // Here, imageUri is the Uri of the captured image
+                Log.e("Scan Fragment", imageUri.toString())
+                navigateToShowTwibbon(imageUri)
+            }
+        }
     }
 
     override fun onResume() {
@@ -64,19 +67,6 @@ class ScanFragment : Fragment() {
         _binding = null
     }
 
-    private fun setupView() {
-        binding.captureButton.setOnClickListener {
-            Log.e("ScanFragment", "Button clicked")
-            cameraHandler.takePicture { imageUri ->
-                // Here, imageUri is the Uri of the captured image
-                Log.e("Scan Fragment", imageUri.toString())
-                navigateToShowBill(imageUri)
-            }
-        }
-        binding.photoPickerButton.setOnClickListener { pickMedia.launch("image/*") }
-        if (!allPermissionsGranted()) ActivityCompat.requestPermissions(requireActivity(), REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
-    }
-
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
     }
@@ -89,12 +79,10 @@ class ScanFragment : Fragment() {
                 }
             }
         }
-        navigateToShowBill(Uri.parse(tempFile.absolutePath))
     }
-
-    private fun navigateToShowBill(imageUri: Uri) {
+    private fun navigateToShowTwibbon(imageUri: Uri) {
         try {
-            findNavController().navigate(R.id.action_scanFragment_to_show_bill_fragment, Bundle().apply {
+            findNavController().navigate(R.id.action_twibbonFragment_to_showTwibbonFragment, Bundle().apply {
                 putString("savedURI", imageUri.toString())
             })
         } catch (e: Exception) {

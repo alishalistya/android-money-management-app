@@ -19,8 +19,6 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 class SettingsViewModel(private val transactionRepository: TransactionRepository) : ViewModel() {
-
-
     private val _text = MutableLiveData<String>().apply {
         value = "This is settings Fragment"
     }

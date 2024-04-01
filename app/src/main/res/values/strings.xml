@@ -24,4 +24,16 @@
     <string name="image_description">Hasil bill</string>
     <string name="pilih_foto">Pilih Foto</string>
     <string name="scan_text">Arahkan kameramu ke struk dan biarkan kami melihat dan memindai strukmu.</string>
+    <string name="password">password</string>
+    <string name="email">email</string>
+    <string name="judul">Judul</string>
+    <string name="kategori">Kategori</string>
+    <string name="rp_0">Rp 0</string>
+    <string name="lokasi">Lokasi</string>
+    <string name="simpan">Simpan</string>
+    <string name="hapus">Hapus</string>
+    <string name="back">BACK</string>
+    <string name="tambah_transaksi">TAMBAH TRANSAKSI</string>
+    <string name="twibbon_text">Dua tiga makan abon, ayo kita pake twibbon!</string>
+    <string name="twibbon">Twibbon</string>
 </resources>
