@@ -111,4 +111,9 @@ class CameraHandler<T>(
             capturedImageFile
         }
     }
+
+    fun flipCamera(){
+
+
+    }
 }

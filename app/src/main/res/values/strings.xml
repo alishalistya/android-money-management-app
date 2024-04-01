@@ -36,4 +36,8 @@
     <string name="tambah_transaksi">TAMBAH TRANSAKSI</string>
     <string name="twibbon_text">Dua tiga makan abon, ayo kita pake twibbon!</string>
     <string name="twibbon">Twibbon</string>
+    <string name="photo_picker_button_description">photo_picker_button_description</string>
+    <string name="photo_picker_button">photo_picker_button</string>
+    <string name="flip_camera">flip camera</string>
+    <string name="capture_button">capture button</string>
 </resources>

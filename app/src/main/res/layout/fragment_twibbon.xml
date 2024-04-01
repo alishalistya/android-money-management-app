@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_grey">
+    android:background="@color/hunter_green">
 
     <androidx.camera.view.PreviewView
         android:id="@+id/previewView"
@@ -16,13 +16,12 @@
         app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.139">
-    </androidx.camera.view.PreviewView>
+        app:layout_constraintVertical_bias="0.139"></androidx.camera.view.PreviewView>
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="362dp"
+        android:layout_height="412dp"
         android:src="@drawable/twibbon"
         app:layout_constraintBottom_toBottomOf="@+id/previewView"
         app:layout_constraintEnd_toEndOf="@+id/previewView"

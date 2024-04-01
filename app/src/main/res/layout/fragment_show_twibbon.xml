@@ -6,10 +6,10 @@
 
     <ImageView
         android:id="@+id/imageViewPicture"
-        android:layout_width="361dp"
-        android:layout_height="408dp"
+        android:layout_width="358dp"
+        android:layout_height="405dp"
+        android:background="@color/black"
         android:contentDescription="@string/image_description"
-        android:src="@drawable/twibbon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.571"

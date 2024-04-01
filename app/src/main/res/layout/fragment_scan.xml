@@ -19,6 +19,7 @@
 
     <ImageButton
         android:id="@+id/capture_button"
+        android:contentDescription="@string/capture_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="476dp"
@@ -31,6 +32,7 @@
 
     <ImageButton
         android:id="@+id/photo_picker_button"
+        android:contentDescription="@string/photo_picker_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="328dp"
@@ -42,6 +44,7 @@
 
     <ImageButton
         android:id="@+id/flip_camera"
+        android:contentDescription="@string/flip_camera"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"

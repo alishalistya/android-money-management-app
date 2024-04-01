@@ -34,11 +34,17 @@ class TwibbonFragment : Fragment() {
         _binding = FragmentTwibbonBinding.inflate(inflater, container, false).also {
             cameraHandler = CameraHandler(requireContext(), viewLifecycleOwner, it)
         }
+        binding.captureButton.apply {
+            isEnabled = false
+            setBackgroundResource(R.drawable.rounded_corner_button_disabled)
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         if (!allPermissionsGranted()) ActivityCompat.requestPermissions(requireActivity(),
             REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
         )
@@ -53,11 +59,23 @@ class TwibbonFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (allPermissionsGranted()) cameraHandler.startCamera()
+        if (allPermissionsGranted()) {
+            cameraHandler.startCamera()
+            binding.captureButton.apply {
+                isEnabled = true
+                setBackgroundResource(R.drawable.rounded_corner_button_green)
+            }
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        if (requestCode == REQUEST_CODE_PERMISSIONS && allPermissionsGranted()) cameraHandler.startCamera()
+        if (requestCode == REQUEST_CODE_PERMISSIONS && allPermissionsGranted()) {
+            cameraHandler.startCamera();
+            binding.captureButton.apply {
+                isEnabled = true
+                setBackgroundResource(R.drawable.rounded_corner_button_green)
+            }
+        }
     }
 
     override fun onDestroyView() {
