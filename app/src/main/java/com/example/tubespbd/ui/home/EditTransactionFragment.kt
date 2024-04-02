@@ -1,6 +1,7 @@
 package com.example.tubespbd.ui.home
 
 import android.os.Bundle
+import android.text.InputFilter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -70,6 +71,18 @@ class EditTransactionFragment : Fragment() {
                 }
             }
         }
+
+        // Buat jadi only angka
+        binding.amountEditText.filters = arrayOf<InputFilter>(InputFilter { source, start, end, dest, dstart, dend ->
+            if (source.isEmpty()) {
+                return@InputFilter null
+            }
+            val temp = dest.toString() + source.toString()
+            if (temp.matches(Regex("^[0-9]*(\\.[0-9]{0,2})?$"))) {
+                return@InputFilter source
+            }
+            ""
+        })
 
         binding.addTransactionButton.setOnClickListener {
             val transactionId = arguments?.getInt("transactionId")

@@ -8,8 +8,9 @@
 
     <LinearLayout
         android:id="@+id/header"
-        android:layout_width="416dp"
-        android:layout_height="61dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="61dp"
         android:background="#000000"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/amountEditText"
@@ -40,29 +41,36 @@
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:paddingStart="20dp"
+            android:paddingTop="15dp"
             />
 
     </LinearLayout>
 
     <EditText
         android:id="@+id/titleEditText"
-        android:layout_width="358dp"
-        android:layout_height="59dp"
+        android:layout_width="match_parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_height="wrap_content"
+        android:minHeight="59dp"
         android:layout_marginTop="152dp"
         android:background="@drawable/rounded_border"
         android:backgroundTint="#E8E7E7"
         android:hint="Judul"
         android:paddingStart="16dp"
         android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="@id/amountEditText"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.525"
-        app:layout_constraintStart_toStartOf="@id/amountEditText"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/amountEditText" />
 
     <AutoCompleteTextView
         android:id="@+id/categoryEditText"
-        android:layout_width="358dp"
-        android:layout_height="51dp"
+        android:layout_width="match_parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_height="wrap_content"
+        android:minHeight="59dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/rounded_border"
         android:backgroundTint="#E8E7E7"
@@ -76,8 +84,9 @@
 
     <EditText
         android:id="@+id/amountEditText"
-        android:layout_width="414dp"
-        android:layout_height="130dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="130dp"
         android:background="#88B9A7"
         android:backgroundTint="#88B9A7"
         android:hint="Rp 0"
@@ -94,8 +103,11 @@
 
     <EditText
         android:id="@+id/locationEditText"
-        android:layout_width="351dp"
-        android:layout_height="108dp"
+        android:layout_width="match_parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/rounded_border"
         android:backgroundTint="#E8E7E7"
@@ -109,8 +121,11 @@
 
     <Button
         android:id="@+id/addTransactionButton"
-        android:layout_width="355dp"
-        android:layout_height="53dp"
+        android:layout_width="match_parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_height="wrap_content"
+        android:minHeight="53dp"
         android:layout_marginTop="292dp"
         android:backgroundTint="#3F6D5C"
         android:text="Simpan"
@@ -121,8 +136,11 @@
 
     <Button
         android:id="@+id/deleteTransactionButton"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
         android:layout_height="wrap_content"
+        android:minHeight="53dp"
         android:backgroundTint="@color/red"
         android:text="Hapus"
         android:visibility="gone"
