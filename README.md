@@ -72,6 +72,18 @@ Analysis from the OWASP for BondoMan Application
 
 ## Accessibility Testing
 
+
+### Graph Page
+![Alt text](accessibility-testing/graph.png)
+### Scan Page
+![Alt text](accessibility-testing/scan-page.png)
+![Alt text](accessibility-testing/scan-results.png)
+### Settings Page
+![Alt text](accessibility-testing/settings.png)
+### Twibbon Page
+![Alt text](accessibility-testing/twibbon-page.png)
+![Alt text](accessibility-testing/twibbon-results.png)
+
 ### Made by
 
 | NIM      | Name            | Features                                                                     |
