@@ -20,6 +20,7 @@ import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import com.example.tubespbd.TransactionManager
 import android.location.LocationManager
+import android.text.InputFilter
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -84,6 +85,18 @@ class AddTransactionFragment : Fragment() {
             binding.locationEditText.setText(locationString)
         }
 
+        // Buat jadi only angka
+        binding.amountEditText.filters = arrayOf<InputFilter>(InputFilter { source, start, end, dest, dstart, dend ->
+            if (source.isEmpty()) {
+                return@InputFilter null
+            }
+            val temp = dest.toString() + source.toString()
+            if (temp.matches(Regex("^[0-9]*(\\.[0-9]{0,2})?$"))) {
+                return@InputFilter source
+            }
+            ""
+        })
+
         binding.addTransactionButton.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 addTransaction()
@@ -113,15 +126,10 @@ class AddTransactionFragment : Fragment() {
         val amountStr = binding.amountEditText.text.toString()
         val locationString = binding.locationEditText.text.toString()
 
-        val amount: Float = if (isValidAmount(amountStr)) {
-            amountStr.toFloat()
-        } else {
-            0f
-        }
+        val amount: Float = amountStr.toFloat()
 
         CoroutineScope(Dispatchers.IO).launch {
             val currentDate = Date()
-
             val newTransaction = Transaction(
                 title = title,
                 category = category,
@@ -136,11 +144,6 @@ class AddTransactionFragment : Fragment() {
         binding.titleEditText.text.clear()
         binding.categoryEditText.text.clear()
         binding.amountEditText.text.clear()
-    }
-
-    private fun isValidAmount(input: String): Boolean {
-        val regex = Regex("[0-9]+")
-        return regex.matches(input)
     }
 
 

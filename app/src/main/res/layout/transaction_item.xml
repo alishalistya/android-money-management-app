@@ -28,13 +28,15 @@
 
         <TextView
             android:id="@+id/categoryTextView"
-            android:layout_width="128dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_border"
             android:backgroundTint="#D8E9E3"
-            android:paddingStart="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:text="Category"
-            android:textColor="#2D5144" />
+            android:textColor="#2D5144"
+            android:gravity="center"/>
 
 
     </LinearLayout>
@@ -52,7 +54,7 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:text="Amount"
-            android:textColor="#1E1B1B" />
+            android:textColor="#000000" />
 
         <TextView
             android:id="@+id/dateTextView"
@@ -60,15 +62,16 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:text="Date"
-            android:textColor="#8F8D8D" />
+            android:textColor="#000000" />
 
         <TextView
             android:id="@+id/locationTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minHeight="48dp"
             android:gravity="end"
             android:text="Location"
-            android:textColor="#8F8D8D" />
+            android:textColor="#000000" />
 
     </LinearLayout>
 </LinearLayout>
