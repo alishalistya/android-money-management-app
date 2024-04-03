@@ -96,6 +96,8 @@ Tidak ada masalah dalam page ini.
 ### Transaction History Page
 ![Alt text](accessibility-testing/a_testing_2.png)
 
+Terdapat beberapa pembaruan pada page transaksi seperti pengaturan warna setiap instance dari history transaksi menjadi lebih contrast, membuat tombol dengan ukuran lebih besar agar dapat di klik, serta membuat ukuran component dinamis agar dapat disesuaikan dengan ukuran text.
+
 ### Transaction Page
 ![Alt text](accessibility-testing/a_testing_5.png)
 
