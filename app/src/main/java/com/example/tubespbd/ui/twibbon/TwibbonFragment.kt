@@ -43,8 +43,6 @@ class TwibbonFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
         if (!allPermissionsGranted()) ActivityCompat.requestPermissions(requireActivity(),
             REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
         )

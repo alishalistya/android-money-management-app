@@ -47,7 +47,6 @@ class BillFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-//        transactionRepository = TransactionRepository()
         _binding = FragmentShowBillBinding.inflate(inflater, container, false)
         imageUriString = arguments?.getString("savedURI").toString()
         Log.e("Scan 1:", "URI: $imageUriString")

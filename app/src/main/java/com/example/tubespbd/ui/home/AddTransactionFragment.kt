@@ -39,7 +39,6 @@ import androidx.navigation.fragment.findNavController
 import java.util.Locale
 
 class AddTransactionFragment : Fragment() {
-
     private var _binding: FragmentAddTransactionBinding? = null // Updated binding class
     private val binding get() = _binding!!
     private lateinit var transactionAdapter: TransactionAdapter

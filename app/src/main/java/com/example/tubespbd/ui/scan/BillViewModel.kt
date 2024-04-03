@@ -12,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class BillViewModel(private val transactionRepository: TransactionRepository) : ViewModel() {
-
     // Transaction Data
     val allTransactions: LiveData<List<Transaction>> = transactionRepository.getAllTransactionsLiveData();
     fun insertTransactions(transaction: Transaction) = viewModelScope.launch(Dispatchers.IO) {

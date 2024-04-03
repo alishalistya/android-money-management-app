@@ -15,7 +15,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class LoginService(private val context: Context): Service() {
-
     private lateinit var authService: AuthService
 
     suspend fun login(email: String, password: String, context: Context): String? {

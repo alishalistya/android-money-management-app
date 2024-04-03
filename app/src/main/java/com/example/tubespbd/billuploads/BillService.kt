@@ -28,9 +28,7 @@ class BillService: Service() {
     lateinit var billService: BillServiceInterface
     suspend fun postBill(context: Context, file: File): ItemResponse? {
         val connectivityManagerService = ConnectivityManagerService()
-
         val retrofit = connectivityManagerService.getConnection(context)
-
         if (retrofit != null) {
             billService = retrofit.create(BillServiceInterface::class.java)
         } else {

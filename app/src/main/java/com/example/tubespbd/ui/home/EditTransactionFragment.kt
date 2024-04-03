@@ -22,7 +22,6 @@ import java.util.Date
 
 
 class EditTransactionFragment : Fragment() {
-
     private lateinit var transactionRepository: TransactionRepository
     private var _binding: FragmentAddTransactionBinding? = null
     private val binding get() = _binding!!

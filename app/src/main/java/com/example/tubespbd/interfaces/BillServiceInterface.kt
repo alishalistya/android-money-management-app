@@ -13,7 +13,6 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 
 interface BillServiceInterface {
-
     @Multipart
     @POST("api/bill/upload")
     suspend fun post(@Header("Authorization") authToken: String, @Part filePart: MultipartBody.Part): Response<ItemResponse>

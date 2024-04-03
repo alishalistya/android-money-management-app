@@ -11,10 +11,7 @@ import com.example.tubespbd.databinding.FragmentGraphBinding
 import com.github.mikephil.charting.charts.PieChart
 
 class GraphFragment : Fragment() {
-
     private var _binding: FragmentGraphBinding? = null
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
     private val graphViewModel: GraphViewModel by viewModels {
         GraphViewModelFactory((requireActivity().application as App).transactionRepository)

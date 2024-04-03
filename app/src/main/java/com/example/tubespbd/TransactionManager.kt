@@ -21,20 +21,6 @@ class TransactionManager(private val context: Context, private val locationManag
         return locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
     }
 
-//    Kalau GEOCODER gak bekerja, pake ini fungsi yang bawah di commentin dulu
-//    fun getLocationString(): String {
-//        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-//            ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            return "Location Permissions not granted"
-//        }
-//        val location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-//        return if (location != null) {
-//            "${location.latitude}, ${location.longitude}"
-//        } else {
-//            "Location not available"
-//        }
-//    }
-
     suspend fun getLocationString(): String = withContext(Dispatchers.IO) {
         if (ActivityCompat.checkSelfPermission(
                 context,

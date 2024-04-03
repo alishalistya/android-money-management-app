@@ -20,9 +20,6 @@ import com.example.tubespbd.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private val settingsViewModel: SettingsViewModel by viewModels {
@@ -55,7 +52,6 @@ class SettingsFragment : Fragment() {
         with(binding) {
             saveButton.setOnClickListener {
 //                settingsViewModel.saveToExcel(requireActivity()) {
-                // Initializing the popup menu and giving the reference as current context
                 val popupMenu = PopupMenu(activity, saveButton)
 
                 // Inflating popup menu from popup_menu.xml file

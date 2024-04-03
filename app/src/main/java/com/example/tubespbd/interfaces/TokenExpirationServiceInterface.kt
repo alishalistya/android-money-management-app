@@ -6,7 +6,6 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface TokenExpirationServiceInterface {
-
     @POST("api/auth/token")
     fun check(@Header("Authorization") token: String): Call<CheckResponse>
 }
