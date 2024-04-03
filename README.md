@@ -71,29 +71,34 @@ Analysis from the OWASP for BondoMan Application
 
 
 ## Accessibility Testing
+Semua halaman pada program telah dicek accessibility-nya. File screenshot dapat diperoleh pada folder accessibility-testing.
 
 ### Login Page
-![Loginpage](accessibility-testing/login-scan.jpg)
-![Loginpage2](accessibility-testing/login-scan2.jpg)
-![Loginresult](accessibility-testing/login-result.jpg)
+![Loginpage](accessibility-testing/a_testing_1.png)
 
 Perbaikan yang sudah dilakukan adalah input field yang diberikan hint, menjadi lebih besar, dan juga tidak fixed-height.
 
-### Graph Page
-![Alt text](accessibility-testing/graph.png)
 ### Scan Page
-![Alt text](accessibility-testing/scan-page.png)
-![Alt text](accessibility-testing/scan-results.png)
+![Alt text](accessibility-testing/a_testing_3.png)
+
+Perbaikan yang dilakukan adalah memperbaiki icon supaya terdapat label dan memperbaiki lokasi button yang tidak konsisten. Selain itu, navbar juga diubah sehingga lebih terlihat.
+
 ### Settings Page
-![Alt text](accessibility-testing/settings.png)
-### Twibbon Page
-![Alt text](accessibility-testing/twibbon-page.png)
-![Alt text](accessibility-testing/twibbon-results.png)
+![Alt text](accessibility-testing/a_testing_4.png)
+
+Perbaikan yang dilakukan adalah memperbaiki posisi button dan memperjelas tulisan pada button. Selain itu, button tidak lagi memiliki fixed width.
+
+### Twibbon and Graph Page
+![Alt text](accessibility-testing/a_testing_6.png)
+
+Tidak ada masalah dalam page ini.
+
 ### Transaction History Page
-![Alt text](accessibility-testing/history.jpg)
+![Alt text](accessibility-testing/a_testing_2.png)
+
 ### Transaction Page
-![Alt text](accessibility-testing/add-transaction.jpg)
-![Alt text](accessibility-testing/edit-transaction.jpg)
+![Alt text](accessibility-testing/a_testing_5.png)
+
 ### Made by
 
 | NIM      | Name            | Features                                                                     |
