@@ -89,11 +89,15 @@ Perbaikan yang sudah dilakukan adalah input field yang diberikan hint, menjadi l
 ### Twibbon Page
 ![Alt text](accessibility-testing/twibbon-page.png)
 ![Alt text](accessibility-testing/twibbon-results.png)
-
+### Transaction History Page
+![Alt text](accessibility-testing/history.jpg)
+### Transaction Page
+![Alt text](accessibility-testing/add-transaction.jpg)
+![Alt text](accessibility-testing/edit-transaction.jpg)
 ### Made by
 
 | NIM      | Name            | Features                                                                     |
 | -------- | --------------- | ---------------------------------------------------------------------------- |
 | 13521089 | Kenneth Ezekiel | Login, Logout, JWT Expiration, Network Sensing, Broadcast Receiver           |
-| 13521151 | Vanessa Rebecca | Header navbar, CRUD Transactions, View Transactions                          |
+| 13521151 | Vanessa Rebecca | Header navbar, CRUD Transactions and Repository, View Transactions                          |
 | 13521171 | Alisha Listya   | Scan bill, Transactions graph, Settings, Save and send transactions, Twibbon |
