@@ -72,6 +72,12 @@ Analysis from the OWASP for BondoMan Application
 
 ## Accessibility Testing
 
+### Login Page
+![Loginpage](accessibility-testing/login-scan.jpg)
+![Loginpage2](accessibility-testing/login-scan2.jpg)
+![Loginresult](accessibility-testing/login-result.jpg)
+
+Perbaikan yang sudah dilakukan adalah input field yang diberikan hint, menjadi lebih besar, dan juga tidak fixed-height.
 
 ### Graph Page
 ![Alt text](accessibility-testing/graph.png)
